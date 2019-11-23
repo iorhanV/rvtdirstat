@@ -7,8 +7,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{70A55EB7-E109-41DE-81B4-0DF2B72DCDE9}</ProjectGuid>
-    <RootNamespace>wdsr0413.Dutch</RootNamespace>
+    <ProjectGuid>{DA4DDD24-67BC-4A9D-87D3-18C73E5CAF31}</ProjectGuid>
+    <RootNamespace>wdsr040c.French</RootNamespace>
     <Keyword>Win32Proj</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -16,7 +16,7 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -26,9 +26,9 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>..\..\..\build.vs2017\</OutDir>
-    <IntDir>..\..\..\intermediate\vs2017_$(ProjectName)_wdslng0413\</IntDir>
-    <TargetName>wdsr0413</TargetName>
+    <OutDir>..\..\..\build.vs2019\</OutDir>
+    <IntDir>..\..\..\intermediate\vs2019_$(ProjectName)_wdslng040c\</IntDir>
+    <TargetName>wdsr040c</TargetName>
     <TargetExt>.wdslng</TargetExt>
     <IgnoreImportLibrary>true</IgnoreImportLibrary>
     <LinkIncremental>false</LinkIncremental>
@@ -49,14 +49,14 @@
       <CompileAs>CompileAsC</CompileAs>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>WDS_RESLANG=0x0413;MODNAME=wdsr0413;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WDS_RESLANG=0x040c;MODNAME=wdsr040c;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\..;$(ProjectDir);$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>false</GenerateDebugInformation>
-      <OutputFile>$(OutDir)wdsr0413.wdslng</OutputFile>
-      <ImportLibrary>..\..\..\intermediate\vs2017_$(ProjectName)_wdslng0413\wdsr0413.wdslng</ImportLibrary>
+      <OutputFile>$(OutDir)wdsr040c.wdslng</OutputFile>
+      <ImportLibrary>..\..\..\intermediate\vs2019_$(ProjectName)_wdslng040c\wdsr040c.wdslng</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
       <AdditionalOptions>/noentry %(AdditionalOptions)</AdditionalOptions>
     </Link>
