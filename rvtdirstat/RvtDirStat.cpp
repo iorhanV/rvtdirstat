@@ -190,7 +190,7 @@ bool CDirStatApp::SetPortableMode(const bool enable, const bool onlyOpen)
     if (m_pszProfileName != nullptr) free(const_cast<LPVOID>(static_cast<LPCVOID>(m_pszProfileName)));
     m_pszProfileName = nullptr;
     m_pszRegistryKey = nullptr;
-    
+
     if (enable)
     {
         // Enable portable mode by creating the file
@@ -502,7 +502,7 @@ void CDirStatApp::LegacyUninstall()
                 {
                     auto fname = MakeLower(file.path().filename().wstring());
                     if (fname.starts_with(L"wdsh") || fname.starts_with(L"wdsr") ||
-                        fname.starts_with(L"windirstat") || fname == L"uninstall.exe")
+                        fname.starts_with(L"rvtdirstat") || fname == L"uninstall.exe")
                     {
                         fs::remove(file, ec);
                     }

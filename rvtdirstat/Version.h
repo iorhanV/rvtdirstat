@@ -41,11 +41,11 @@
 #define FILE_MINVER                 PRD_MINVER // minor file version
 #define FILE_PATCH                  PRD_PATCH // patch number for version
 #define FILE_BUILD                  PRD_BUILD // build number for version
-#define TEXT_WEBSITE                https:/##/windirstat.net // website
+#define TEXT_WEBSITE                https:/##/rvtdirstat.net // website
 #define TEXT_PRODUCTNAME            WinDirStat // product's name
 #define TEXT_FILEDESC               Windows Directory Statistics (WinDirStat) // component description
 
 #define STRING_COMPANY              WinDirStat Team
 #define STRING_COPYRIGHT            "© WinDirStat Team"
 #define STRING_EXENAME              WinDirStat.exe
-#define SOURCE_REPOSITORY           https://github.com/windirstat/windirstat
+#define SOURCE_REPOSITORY           https://github.com/rvtdirstat/rvtdirstat

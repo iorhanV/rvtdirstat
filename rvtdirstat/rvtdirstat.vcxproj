@@ -590,7 +590,7 @@
     <ClInclude Include="Views\FileTopView.h" />
     <ClInclude Include="Views\FileTreeView.h" />
     <ClInclude Include="Views\TreeMapView.h" />
-    <ClInclude Include="WinDirStat.h" />
+    <ClInclude Include="RvtDirStat.h" />
     <ClInclude Include="Dialogs\AboutDlg.h" />
     <ClInclude Include="Dialogs\SelectDrivesDlg.h" />
   </ItemGroup>
@@ -656,7 +656,7 @@
     <ClCompile Include="Views\FileTopView.cpp" />
     <ClCompile Include="Views\FileTreeView.cpp" />
     <ClCompile Include="Views\TreeMapView.cpp" />
-    <ClCompile Include="WinDirStat.cpp">
+    <ClCompile Include="RvtDirStat.cpp">
     </ClCompile>
     <ClCompile Include="Controls\ColorButton.cpp">
     </ClCompile>
@@ -697,7 +697,7 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="langs.rc" />
-    <ResourceCompile Include="windirstat.rc" />
+    <ResourceCompile Include="rvtdirstat.rc" />
     <ResourceCompile Include="version.rc" />
   </ItemGroup>
   <ItemGroup>

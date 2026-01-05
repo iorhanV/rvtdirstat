@@ -1,6 +1,6 @@
 ﻿//{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by windirstat.rc
+// Used by rvtdirstat.rc
 //
 #define IDD_ABOUTBOX                    100
 #define IDD_PAGE_ADVANCED               101

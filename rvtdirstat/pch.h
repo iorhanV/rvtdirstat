@@ -112,7 +112,7 @@
 #include "GlobalHelpers.h"
 #include "BlockingQueue.h"
 #include "Options.h"
-#include "WinDirStat.h"
+#include "RvtDirStat.h"
 #include "DirStatDoc.h"
 #include "Item.h"
 #include "SmartPointer.h"
