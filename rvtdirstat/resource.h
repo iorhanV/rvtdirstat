@@ -12,6 +12,7 @@
 #define IDD_PAGE_TREEMAP                109
 #define IDD_PAGE_GENERAL                110
 #define IDD_SEARCH                      111
+#define IDD_SEARCHRVT               114
 #define IDD_PROGRESS                    112
 #define IDD_PAGE_PROMPTS                113
 #define IDR_MAINFRAME                   128
@@ -135,14 +136,17 @@
 #define IDC_DARK_MODE_DISABLED          1095
 #define IDC_DARK_MODE_USE_WINDOWS       1096
 #define IDC_DARK_MODE_ENABLED           1097
+#define IDC_RVT_SEARCH                  1099
+#define IDC_RFA_SEARCH                  1100
+#define IDC_BACKUP_SEARCH               1101
 #define IDC_FAST_SCAN_CHECKBOX          1098
-#define IDC_MESSAGE_ICON                1099
-#define IDC_MESSAGE_TEXT                1100
-#define IDC_MESSAGE_BUTTONLEFT          1101
-#define IDC_MESSAGE_BUTTONMIDDLE        1102
-#define IDC_MESSAGE_BUTTONRIGHT         1103
-#define IDC_MESSAGE_CHECKBOX            1104
-#define IDC_MESSAGE_LISTVIEW            1105
+#define IDC_MESSAGE_ICON                1102
+#define IDC_MESSAGE_TEXT                1103
+#define IDC_MESSAGE_BUTTONLEFT          1104
+#define IDC_MESSAGE_BUTTONMIDDLE        1105
+#define IDC_MESSAGE_BUTTONRIGHT         1106
+#define IDC_MESSAGE_CHECKBOX            1107
+#define IDC_MESSAGE_LISTVIEW            1108
 #define IDC_BROWSE_BUTTON               1109
 #define IDC_PROGRESS_MESSAGE            1110
 #define IDC_PROGRESS_BAR                1111
@@ -235,7 +239,7 @@
 #define IDS_FILTER_EXAMPLE_DIRS_REGEX   57352
 
 // Next default values for new objects
-// 
+//
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        306

@@ -17,6 +17,7 @@
 
 #include "pch.h"
 #include "Property.h"
+#include "SearchOptionsDlg.h"
 
 LPCWSTR COptions::OptionsGeneral = L"Options";
 LPCWSTR COptions::OptionsTreeMap = L"TreeMapView";
@@ -25,6 +26,7 @@ LPCWSTR COptions::OptionsDupeTree = L"DupeView";
 LPCWSTR COptions::OptionsExtView = L"ExtView";
 LPCWSTR COptions::OptionsTopView = L"TopView";
 LPCWSTR COptions::OptionsSearch = L"SearchView";
+LPCWSTR COptions::OptionsSearchRvt = L"SearchRvtView";
 LPCWSTR COptions::OptionsDriveSelect = L"DriveSelect";
 
 Setting<bool> COptions::AutomaticallyResizeColumns(OptionsGeneral, L"AutomaticallyResizeColumns", true);
@@ -106,6 +108,7 @@ Setting<int> COptions::FolderHistoryCount(OptionsDriveSelect, L"FolderHistoryCou
 Setting<RECT> COptions::AboutWindowRect(OptionsGeneral, L"AboutWindowRect");
 Setting<RECT> COptions::DriveSelectWindowRect(OptionsDriveSelect, L"DriveSelectWindowRect");
 Setting<RECT> COptions::SearchWindowRect(OptionsSearch, L"SearchWindowRect");
+Setting<RECT> COptions::SearchRvtWindowRect(OptionsSearch, L"SearchWindowRect");
 Setting<std::vector<int>> COptions::DriveListColumnOrder(OptionsDriveSelect, L"DriveListColumnOrder");
 Setting<std::vector<int>> COptions::DriveListColumnWidths(OptionsDriveSelect, L"DriveListColumnWidths");
 Setting<std::vector<int>> COptions::DupeViewColumnOrder(OptionsDupeTree, L"DupeViewColumnOrder");
@@ -129,6 +132,7 @@ CTreeMap::Options COptions::TreeMapOptions;
 std::vector<USERDEFINEDCLEANUP> COptions::UserDefinedCleanups;
 std::vector<std::wregex> COptions::FilteringExcludeDirsRegex;
 std::vector<std::wregex> COptions::FilteringExcludeFilesRegex;
+std::vector<std::wregex> COptions::FilteringAllowFilesRegex;
 ULONGLONG COptions::FilteringSizeMinimumCalculated;
 
 void COptions::SanitizeRect(RECT& rect)
@@ -232,6 +236,7 @@ void COptions::PostProcessPersistedSettings()
     SanitizeRect(AboutWindowRect.Obj());
     SanitizeRect(DriveSelectWindowRect.Obj());
     SanitizeRect(SearchWindowRect.Obj());
+    SanitizeRect(SearchRvtWindowRect.Obj());
 
     // Compile filters, if any
     CompileFilters();

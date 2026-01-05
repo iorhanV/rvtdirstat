@@ -9,11 +9,11 @@
     </Upgrade>
     <MajorUpgrade AllowSameVersionUpgrades="$(var.AllowSameVersionUpgrades)" DowngradeErrorMessage="A newer version of [ProductName] is already installed." Schedule="afterInstallInitialize"/>
     <!-- Icon -->
-    <Icon Id="WinDirStat.ico" SourceFile="$(var.IconFilePath)"/>
+    <Icon Id="RvtDirStat.ico" SourceFile="$(var.IconFilePath)"/>
     <!-- ARP Properties -->
     <Property Id="ARPCONTACT" Value="$(var.Contact)"/>
     <Property Id="ARPHELPLINK" Value="$(var.HelpLink)"/>
-    <Property Id="ARPPRODUCTICON" Value="WinDirStat.ico"/>
+    <Property Id="ARPPRODUCTICON" Value="RvtDirStat.ico"/>
     <Property Id="ARPREADME" Value="$(var.ReadMeLink)"/>
     <Property Id="ARPSIZE" Value="$(var.EstimatedSize)"/>
     <Property Id="ARPURLINFOABOUT" Value="$(var.AboutLink)"/>

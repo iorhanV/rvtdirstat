@@ -92,7 +92,7 @@ BOOL COptionsPropertySheet::OnEraseBkgnd(CDC* pDC)
     CRect rect;
     GetClientRect(&rect);
     pDC->FillSolidRect(&rect, DarkMode::WdsSysColor(CTLCOLOR_DLG));
-    
+
     return TRUE;
 }
 
@@ -639,7 +639,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
     {
         return -1;
     }
-    
+
     m_wndToolBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_TOOLTIPS | CBRS_SIZE_DYNAMIC);
     m_wndToolBar.LoadToolBar(IDR_MAINFRAME);
     m_wndToolBar.SetBorders(CRect());
@@ -930,7 +930,7 @@ void CMainFrame::CopyToClipboard(const std::wstring & psz)
         }
         wcscpy_s(static_cast<LPWSTR>(*lp), cchBufLen, psz.c_str());
     }
-    
+
     if (SetClipboardData(CF_UNICODETEXT, h) == nullptr)
     {
         DisplayError(TranslateError());
@@ -1301,7 +1301,7 @@ void CMainFrame::OnConfigure()
 
     // Save settings in case the application exits abnormally
     PersistedSetting::WritePersistedProperties();
-    
+
     if (sheet.m_restartApplication)
     {
         CDirStatApp::Get()->RestartApplication();

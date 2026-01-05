@@ -836,7 +836,7 @@ void CTreeListControl::EnsureItemVisible(const CTreeListItem* item)
         return;
     }
     EnsureVisible(i, false);
-    
+
     // Scroll to the left to show the beginning of the item
     if (const int currentScrollPos = GetScrollPos(SB_HORZ); currentScrollPos > 0)
     {

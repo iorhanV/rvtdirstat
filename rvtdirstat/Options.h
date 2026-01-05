@@ -108,6 +108,7 @@ class COptions final
     static LPCWSTR OptionsTopView;
     static LPCWSTR OptionsSearch;
     static LPCWSTR OptionsDriveSelect;
+    static LPCWSTR OptionsSearchRvt;
 
 public:
 
@@ -191,6 +192,7 @@ public:
     static Setting<RECT> AboutWindowRect;
     static Setting<RECT> DriveSelectWindowRect;
     static Setting<RECT> SearchWindowRect;
+    static Setting<RECT> SearchRvtWindowRect;
     static Setting<std::vector<int>> DriveListColumnOrder;
     static Setting<std::vector<int>> DriveListColumnWidths;
     static Setting<std::vector<int>> DupeViewColumnOrder;
@@ -214,6 +216,7 @@ public:
     static std::vector<USERDEFINEDCLEANUP> UserDefinedCleanups;
     static std::vector<std::wregex> FilteringExcludeDirsRegex;
     static std::vector<std::wregex> FilteringExcludeFilesRegex;
+    static std::vector<std::wregex> FilteringAllowFilesRegex;
     static ULONGLONG FilteringSizeMinimumCalculated;
 
     static void SanitizeRect(RECT& rect);

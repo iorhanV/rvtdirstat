@@ -21,7 +21,7 @@
     <?define HelpLink =                 "https://windirstat.net"?>
     <?define UpdateLink =               "https://windirstat.net"?>
     <?define ReadMeLink =               "https://windirstat.net"?>
-    <?define IconFilePath =             "..\windirstat\res\WinDirStat.ico" ?>
+    <?define IconFilePath =             "..\windirstat\res\RvtDirStat.ico" ?>
 
     <?define ProductBinariesDir =       "..\build"?>
     <?define LicenseRtf =               "license.rtf"?>

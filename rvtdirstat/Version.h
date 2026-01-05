@@ -41,11 +41,11 @@
 #define FILE_MINVER                 PRD_MINVER // minor file version
 #define FILE_PATCH                  PRD_PATCH // patch number for version
 #define FILE_BUILD                  PRD_BUILD // build number for version
-#define TEXT_WEBSITE                https:/##/rvtdirstat.net // website
-#define TEXT_PRODUCTNAME            WinDirStat // product's name
-#define TEXT_FILEDESC               Windows Directory Statistics (WinDirStat) // component description
+#define TEXT_WEBSITE                https:/##/github.com/iorhanV/rvtdirstat // website
+#define TEXT_PRODUCTNAME            RvtDirStat // product's name
+#define TEXT_FILEDESC               Revit Package Manager (RvtDirStat) // component description
 
-#define STRING_COMPANY              WinDirStat Team
-#define STRING_COPYRIGHT            "© WinDirStat Team"
+#define STRING_COMPANY              IorhanV
+#define STRING_COPYRIGHT            "© IorhanV"
 #define STRING_EXENAME              WinDirStat.exe
-#define SOURCE_REPOSITORY           https://github.com/rvtdirstat/rvtdirstat
+#define SOURCE_REPOSITORY           https://github.com/iorhanV/rvtdirstat

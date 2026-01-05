@@ -19,6 +19,7 @@
 #include "SelectDrivesDlg.h"
 #include "FinderBasic.h"
 #include "MessageBoxDlg.h"
+#include "SearchOptionsDlg.h"
 
 namespace
 {
@@ -329,7 +330,7 @@ void CDrivesList::OnDoubleClick(NMHDR* /*pNMHDR*/, LRESULT* pResult)
     CPoint point = GetCurrentMessage()->pt;
     ScreenToClient(&point);
     const int i = HitTest(point);
-    
+
     SetItemState(-1, 0, LVIS_SELECTED | LVIS_FOCUSED);
     SetItemState(i, LVIS_SELECTED | LVIS_FOCUSED, LVIS_SELECTED | LVIS_FOCUSED);
 
@@ -473,7 +474,7 @@ BOOL CSelectDrivesDlg::OnInitDialog()
         {
             continue;
         }
-        
+
         std::wstring s = std::wstring(1, wds::strAlpha.at(i)) + L":\\";
         const UINT type = ::GetDriveType(s.c_str());
         if (type == DRIVE_UNKNOWN || type == DRIVE_NO_ROOT_DIR)
@@ -572,6 +573,14 @@ void CSelectDrivesDlg::OnOK()
     tabbedView->SetActiveFileTreeView();
 
     CLayoutDialogEx::OnOK();
+
+
+
+    // Instantiate and display the IDD_SEARCHOPTIONS dialog
+
+    CSearchOptionsDlg searchOptionsDlg;
+    searchOptionsDlg.DoModal();
+
 }
 
 void CSelectDrivesDlg::UpdateButtons()
