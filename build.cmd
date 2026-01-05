@@ -1,5 +1,5 @@
 @ECHO OFF
-TITLE Building WinDirStat
+TITLE Building RvtDirStat
 SETLOCAL
 
 :: solicit whether this is production or beta build
@@ -20,9 +20,9 @@ SET BLDDIR=%THISDIR%\build
 SET PUBDIR=%THISDIR%\publish
 
 :: cert info to use for signing
-set TSAURL=http://time.certum.pl/
-set LIBNAME=WinDirStat
-set LIBURL=https://github.com/WinDirStat/WinDirStat
+:: set TSAURL=http://time.certum.pl/
+:: set LIBNAME=WinDirStat
+:: set LIBURL=https://github.com/WinDirStat/WinDirStat
 
 :: prepend preferred git and 7-zip paths
 IF EXIST "%ProgramFiles%\7-Zip" SET PATH=%ProgramFiles%\7-Zip;%PATH%
@@ -47,9 +47,9 @@ FOR /F "USEBACKQ TOKENS=*" %%X in (`
         -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 ^
         -property installationPath
 `) DO CALL "%%X\Common7\Tools\VsDevCmd.bat"
-IF EXIST "%WindowsSdkVerBinPath%\x86" msbuild "%BASEDIR%\windirstat.sln" /p:Configuration=Release /t:Clean;Build /p:Platform=Win32,ExternalCompilerOptions=/DPRODUCTION=%PRODUCTION%
-IF EXIST "%WindowsSdkVerBinPath%\x64" msbuild "%BASEDIR%\windirstat.sln" /p:Configuration=Release /t:Clean;Build /p:Platform=x64,ExternalCompilerOptions=/DPRODUCTION=%PRODUCTION%
-IF EXIST "%WindowsSdkVerBinPath%\arm64" msbuild "%BASEDIR%\windirstat.sln" /p:Configuration=Release /t:Clean;Build /p:Platform=ARM64,ExternalCompilerOptions=/DPRODUCTION=%PRODUCTION%
+IF EXIST "%WindowsSdkVerBinPath%\x86" msbuild "%BASEDIR%\rvtdirstat.sln" /p:Configuration=Release /t:Clean;Build /p:Platform=Win32,ExternalCompilerOptions=/DPRODUCTION=%PRODUCTION%
+IF EXIST "%WindowsSdkVerBinPath%\x64" msbuild "%BASEDIR%\rvtdirstat.sln" /p:Configuration=Release /t:Clean;Build /p:Platform=x64,ExternalCompilerOptions=/DPRODUCTION=%PRODUCTION%
+IF EXIST "%WindowsSdkVerBinPath%\arm64" msbuild "%BASEDIR%\rvtdirstat.sln" /p:Configuration=Release /t:Clean;Build /p:Platform=ARM64,ExternalCompilerOptions=/DPRODUCTION=%PRODUCTION%
 TIMEOUT /t 3 /nobreak >NUL
 
 :: optimize executable size if pwsh is present
@@ -60,13 +60,13 @@ IF %ERRORLEVEL% EQU 0 FOR %%A IN (arm64 x86 x64) DO (
 )
 
 :: sign the main executables 
-signtool sign /fd sha256 /tr %TSAURL% /td sha256 /d %LIBNAME% /du %LIBURL% "%BLDDIR%\*.exe"
+:: signtool sign /fd sha256 /tr %TSAURL% /td sha256 /d %LIBNAME% /du %LIBURL% "%BLDDIR%\*.exe"
 
 :: build the msi
 CALL "%THISDIR%\setup\build.cmd" "%RELTYPE%"
 
 :: sign the msi
-signtool sign /fd sha256 /tr %TSAURL% /td sha256 /d %LIBNAME% /du %LIBURL% "%BLDDIR%\*.msi"
+:: signtool sign /fd sha256 /tr %TSAURL% /td sha256 /d %LIBNAME% /du %LIBURL% "%BLDDIR%\*.msi"
 
 :: copy the output files
 IF EXIST "%PUBDIR%" RD /S /Q "%PUBDIR%"

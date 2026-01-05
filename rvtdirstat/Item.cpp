@@ -95,7 +95,7 @@ bool CItem::DrawSubItem(const int subitem, CDC* pdc, CRect rc, const UINT state,
     {
         return CTreeListItem::DrawSubItem(subitem, pdc, rc, state, width, focusLeft);
     }
-    
+
     if (subitem != COL_SUBTREE_PERCENTAGE)
     {
         return false;
@@ -528,7 +528,7 @@ void CItem::AddChild(CItem* child, const bool addOnly)
 
     child->SetParent(this);
     m_folderInfo->m_children.push_back(child);
-  
+
     if (IsVisible() && IsExpanded())
     {
         CMainFrame::Get()->InvokeInMessageThread([this, child]
@@ -559,7 +559,7 @@ void CItem::RemoveChild(CItem* child)
     {
         // Find remaining items with the same index
         const auto sameIndexItems = child->FindItemsBySameIndex();
-        
+
         if (sameIndexItems.size() == 1)
         {
             // Only one remaining item - it's no longer a hardlink
@@ -580,7 +580,7 @@ void CItem::RemoveChild(CItem* child)
                             // Subtract size and remove the index folder
                             indexSet->UpwardSubtractSizePhysical(indexFolder->GetSizePhysical());
                             indexSet->RemoveChild(indexFolder);
-                            
+
 
                             // Restore size to the remaining item's hierarchy
                             remainingItem->GetParent()->UpwardAddSizePhysical(remainingItem->GetSizePhysicalRaw());
@@ -1066,7 +1066,7 @@ void CItem::SortItemsBySizePhysical() const
 void CItem::SortItemsBySizeLogical() const
 {
     if (IsLeaf()) return;
-    
+
     // sort by size for proper treemap rendering
     m_folderInfo->m_children.shrink_to_fit();
     std::ranges::sort(m_folderInfo->m_children, std::ranges::greater{}, &CItem::GetSizeLogical);
@@ -1136,7 +1136,7 @@ void CItem::ScanItems(BlockingQueue<CItem*> * queue, FinderNtfsContext& contextN
                     {
                         continue;
                     }
-  
+
                     // Exclude directories matching path filter
                     if (!COptions::FilteringExcludeDirsRegex.empty() && std::ranges::any_of(COptions::FilteringExcludeDirsRegex,
                         [&finder](const auto& pattern) { return std::regex_match(finder->GetFilePath(), pattern); }))
@@ -1160,8 +1160,16 @@ void CItem::ScanItems(BlockingQueue<CItem*> * queue, FinderNtfsContext& contextN
                     }
 
                     // Exclude files matching name filter
-                    if (!COptions::FilteringExcludeFilesRegex.empty() && std::ranges::any_of(COptions::FilteringExcludeFilesRegex,
-                        [&finder](const auto& pattern) { return std::regex_match(finder->GetFileName(), pattern); }))
+                    // if (!COptions::FilteringExcludeFilesRegex.empty() && std::ranges::any_of(COptions::FilteringExcludeFilesRegex,
+                    //     [&finder](const auto& pattern) { return std::regex_match(finder->GetFileName(), pattern); }))
+                    // {
+                    //     continue;
+                    // }
+
+                    // Allow only files matching name filter (Exclude if NOT matching any pattern)
+                    if (!COptions::FilteringAllowFilesRegex.empty() && !std::ranges::any_of(COptions::FilteringAllowFilesRegex,
+                        [&finder](const auto& pattern) { return std::regex_match(finder->GetFilePath() , pattern); }))
+                        // GetFileName() might be quicker, TODO check performance later iorhan
                     {
                         continue;
                     }
@@ -1388,7 +1396,7 @@ void CItem::CreateHardlinksItem()
     ASSERT(IsTypeOrFlag(IT_DRIVE));
 
     const auto hardlinks = new CItem(IT_HLINKS, Localization::Lookup(IDS_HARDLINKS_ITEM));
-    
+
     // Create 20 Index Set subfolders (Index Set 1 through Index 20)
     // On file systems with many hardlinks, this helps reduce the items
     // to expand in the interface on when viewing hardlink structures
@@ -1399,7 +1407,7 @@ void CItem::CreateHardlinksItem()
         indexSet->SetDone();
         hardlinks->AddChild(indexSet);
     }
-    
+
     AddChild(hardlinks);
 }
 
@@ -1487,40 +1495,40 @@ void CItem::DoHardlinkAdjustment()
     // Get the hardlinks container and its Index Set children
     const auto hardlinksItem = FindHardlinksItem();
     if (hardlinksItem == nullptr) return;
-    
+
     const auto& indexSets = hardlinksItem->GetChildren();
     constexpr int INDEX_SET_COUNT = 20;
-    
+
     // Process hardlinks - create hierarchical structure
     for (const auto& [index, list] : indexDupes)
     {
         bool skipAdd = false;
         auto itemSize = 0ull;
-        
+
         // Check if any items already have the hardlink flag (already processed)
         for (auto* item : list)
         {
             if (item->IsTypeOrFlag(ITF_HARDLINK)) { skipAdd = true; break; }
         }
-        
+
         if (skipAdd) continue;
-        
+
         // Calculate the maximum physical size among all hardlinks with this index
         for (auto* item : list)
         {
             itemSize = max(itemSize, item->GetSizePhysicalRaw());
         }
-        
+
         // Determine which Index Set this belongs to (modulus 20, 0-based index)
         const int setIndex = (index % INDEX_SET_COUNT);  // 0-19
         CItem* indexSetItem = (setIndex < static_cast<int>(indexSets.size())) ? indexSets[setIndex] : nullptr;
-        
+
         if (indexSetItem == nullptr) continue;
-        
+
         // Create "Index N" folder under the appropriate Index Set
         const auto indexFolder = new CItem(IT_HLINKS_IDX, std::format(L"{} 0x{:016X}", Localization::Lookup(IDS_COL_INDEX), index));
         indexFolder->SetIndex(index);
-        
+
         // Add file reference entries under the Index folder
         for (auto* item : list)
         {
@@ -1528,7 +1536,7 @@ void CItem::DoHardlinkAdjustment()
             item->GetParent()->UpwardSubtractSizePhysical(item->GetSizePhysicalRaw());
             item->GetParent()->UpwardSetUndone();
             item->SetFlag(ITF_HARDLINK);
-            
+
             // Create a file reference entry with just the full path
             // GetName() will extract the filename, GetLinkedItem() will use the path
             const auto fileRef = new CItem(IT_HLINKS_FILE, item->GetPath());
@@ -1536,41 +1544,41 @@ void CItem::DoHardlinkAdjustment()
             fileRef->SetSizePhysical(item->GetSizePhysicalRaw());
             fileRef->SetSizeLogical(item->GetSizeLogical());
             fileRef->SetLastChange(item->GetLastChange());
-            
+
             // Add to index folder without propagating size upward (addOnly=true)
             indexFolder->AddChild(fileRef, true);
         }
-        
+
         // Set the physical size on the Index folder - this is what tallies upward
         indexFolder->SetSizePhysical(itemSize);
-        
+
         // Mark index set as undone so it will be re-sorted
         indexSetItem->SetFlag(ITF_DONE, true);
-        
+
         // Add to Index Set - this will propagate the size upward
         indexSetItem->AddChild(indexFolder);
     }
-    
+
     // Now sort all the Index Sets and their children, and mark done
     for (auto* indexSet : hardlinksItem->GetChildren())
     {
         if (!indexSet->IsTypeOrFlag(IT_HLINKS_SET)) continue;
-        
+
         // Sort Index folders within this Index Set
         for (auto* indexFolder : indexSet->GetChildren())
         {
             if (!indexFolder->IsTypeOrFlag(IT_HLINKS_IDX)) continue;
-            
+
             // Sort file references within this Index folder by size
             indexFolder->SortItemsBySizePhysical();
             indexFolder->SetFlag(ITF_DONE);
         }
-        
+
         // Sort Index folders within this Index Set by size
         indexSet->SortItemsBySizePhysical();
         indexSet->SetFlag(ITF_DONE);
     }
-    
+
     // Sort Index Sets within Hardlinks by size and mark done
     hardlinksItem->SortItemsBySizePhysical();
     hardlinksItem->UpwardSetUndone();
@@ -1817,7 +1825,7 @@ std::vector<BYTE> CItem::GetFileHash(ULONGLONG hashSizeLimit, BlockingQueue<CIte
     {
         return {};
     }
-    
+
     // Hash data one read at a time
     DWORD iReadResult = 0;
     DWORD iHashResult = 0;
@@ -1936,7 +1944,7 @@ CItem* CItem::GetLinkedItem()
             return linkedItem;
         }
     }
-    
+
     // Default: return this item
     return this;
 }

@@ -28,7 +28,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{BD11B94C-6594-4477-9FDF-2E24447D1F14}</ProjectGuid>
-    <RootNamespace>windirstat</RootNamespace>
+    <RootNamespace>rvtdirstat</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -118,20 +118,20 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)build\</OutDir>
     <IntDir>$(SolutionDir)intermediate\$(Platform)_$(Configuration)\$(ProjectName)\</IntDir>
-    <TargetName>WinDirStat_$(PlatformShortName.ToLower())</TargetName>
+    <TargetName>RvtDirStat_$(PlatformShortName.ToLower())</TargetName>
     <TargetExt>.exe</TargetExt>
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)build\</OutDir>
     <IntDir>$(SolutionDir)intermediate\$(Platform)_$(Configuration)\$(ProjectName)\</IntDir>
-    <TargetName>WinDirStat_$(PlatformShortName.ToLower())</TargetName>
+    <TargetName>RvtDirStat_$(PlatformShortName.ToLower())</TargetName>
     <TargetExt>.exe</TargetExt>
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
     <IntDir>$(SolutionDir)intermediate\$(Platform)_$(Configuration)\$(ProjectName)\</IntDir>
-    <TargetName>WinDirStat_$(PlatformShortName.ToLower())</TargetName>
+    <TargetName>RvtDirStat_$(PlatformShortName.ToLower())</TargetName>
     <TargetExt>.exe</TargetExt>
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)build\</OutDir>
@@ -139,20 +139,20 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)build\</OutDir>
     <IntDir>$(SolutionDir)intermediate\$(Platform)_$(Configuration)\$(ProjectName)\</IntDir>
-    <TargetName>WinDirStat_$(PlatformShortName.ToLower())</TargetName>
+    <TargetName>RvtDirStat_$(PlatformShortName.ToLower())</TargetName>
     <TargetExt>.exe</TargetExt>
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)build\</OutDir>
     <IntDir>$(SolutionDir)intermediate\$(Platform)_$(Configuration)\$(ProjectName)\</IntDir>
-    <TargetName>WinDirStat_$(PlatformShortName.ToLower())</TargetName>
+    <TargetName>RvtDirStat_$(PlatformShortName.ToLower())</TargetName>
     <TargetExt>.exe</TargetExt>
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
     <IntDir>$(SolutionDir)intermediate\$(Platform)_$(Configuration)\$(ProjectName)\</IntDir>
-    <TargetName>WinDirStat_$(PlatformShortName.ToLower())</TargetName>
+    <TargetName>RvtDirStat_$(PlatformShortName.ToLower())</TargetName>
     <TargetExt>.exe</TargetExt>
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)build\</OutDir>
@@ -194,7 +194,7 @@
       <Profile>false</Profile>
     </Link>
     <Manifest>
-      <AdditionalManifestFiles>res\windirstat.manifest</AdditionalManifestFiles>
+      <AdditionalManifestFiles>res\rvtdirstat.manifest</AdditionalManifestFiles>
       <EnableDpiAwareness>false</EnableDpiAwareness>
     </Manifest>
     <CustomBuildStep>
@@ -245,7 +245,7 @@
       <Command>POWERSHELL.EXE -NoLogo -ExecutionPolicy Unrestricted -NoProfile -File "$(ProjectDir)Build\Compress Strings.ps1" -Path "$(ProjectDir)res"</Command>
     </PreBuildEvent>
     <Manifest>
-      <AdditionalManifestFiles>res\windirstat.manifest</AdditionalManifestFiles>
+      <AdditionalManifestFiles>res\rvtdirstat.manifest</AdditionalManifestFiles>
       <EnableDpiAwareness>false</EnableDpiAwareness>
     </Manifest>
     <CustomBuildStep>
@@ -292,7 +292,7 @@
       <Command>POWERSHELL.EXE -NoLogo -ExecutionPolicy Unrestricted -NoProfile -File "$(ProjectDir)Build\Compress Strings.ps1" -Path "$(ProjectDir)res"</Command>
     </PreBuildEvent>
     <Manifest>
-      <AdditionalManifestFiles>res\windirstat.manifest</AdditionalManifestFiles>
+      <AdditionalManifestFiles>res\rvtdirstat.manifest</AdditionalManifestFiles>
       <EnableDpiAwareness>false</EnableDpiAwareness>
     </Manifest>
     <CustomBuildStep>
@@ -347,7 +347,7 @@
       <Profile>false</Profile>
     </Link>
     <Manifest>
-      <AdditionalManifestFiles>res\windirstat.manifest</AdditionalManifestFiles>
+      <AdditionalManifestFiles>res\rvtdirstat.manifest</AdditionalManifestFiles>
       <EnableDpiAwareness>false</EnableDpiAwareness>
     </Manifest>
     <CustomBuildStep>
@@ -401,7 +401,7 @@
       <Profile>false</Profile>
     </Link>
     <Manifest>
-      <AdditionalManifestFiles>res\windirstat.manifest</AdditionalManifestFiles>
+      <AdditionalManifestFiles>res\rvtdirstat.manifest</AdditionalManifestFiles>
       <EnableDpiAwareness>false</EnableDpiAwareness>
     </Manifest>
     <CustomBuildStep>
@@ -460,7 +460,7 @@
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
     <Manifest>
-      <AdditionalManifestFiles>res\windirstat.manifest</AdditionalManifestFiles>
+      <AdditionalManifestFiles>res\rvtdirstat.manifest</AdditionalManifestFiles>
       <EnableDpiAwareness>false</EnableDpiAwareness>
     </Manifest>
     <CustomBuildStep>
@@ -518,7 +518,7 @@
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
     <Manifest>
-      <AdditionalManifestFiles>res\windirstat.manifest</AdditionalManifestFiles>
+      <AdditionalManifestFiles>res\rvtdirstat.manifest</AdditionalManifestFiles>
       <EnableDpiAwareness>false</EnableDpiAwareness>
     </Manifest>
     <CustomBuildStep>
@@ -549,6 +549,7 @@
     <ClInclude Include="DarkMode.h" />
     <ClInclude Include="Dialogs\MessageBoxDlg.h" />
     <ClInclude Include="Dialogs\ProgressDlg.h" />
+    <ClInclude Include="Dialogs\SearchOptionsDlg.h" />
     <ClInclude Include="Pages\PagePrompts.h" />
     <ClInclude Include="Views\FileSearchView.h" />
     <ClInclude Include="Finder.h" />
@@ -609,6 +610,7 @@
     <ClCompile Include="DarkMode.cpp" />
     <ClCompile Include="Dialogs\MessageBoxDlg.cpp" />
     <ClCompile Include="Dialogs\ProgressDlg.cpp" />
+    <ClCompile Include="Dialogs\SearchOptionsDlg.cpp" />
     <ClCompile Include="DirStatDoc.cpp">
     </ClCompile>
     <ClCompile Include="Pages\PagePrompts.cpp" />
@@ -692,8 +694,8 @@
     <None Include="res\license.bin" />
     <None Include="res\license.txt" />
     <None Include="res\IDR_MAINFRAME.bmp" />
-    <None Include="res\windirstat.manifest" />
-    <None Include="res\windirstat.rc2" />
+    <None Include="res\rvtdirstat.manifest" />
+    <None Include="res\rvtdirstat.rc2" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="langs.rc" />
@@ -704,7 +706,7 @@
     <Image Include="res\IDB_NODES_INVERT.bmp" />
     <Image Include="res\toolbar\IDB_FILTER.bmp" />
     <Image Include="res\toolbar\IDB_SEARCH.bmp" />
-    <Image Include="res\WinDirStat.ico" />
+    <Image Include="res\RvtDirStat.ico" />
     <Image Include="res\toolbar\IDB_CLEANUP_DELETE.bmp" />
     <Image Include="res\toolbar\IDB_CLEANUP_DELETE_BIN.bmp" />
     <Image Include="res\toolbar\IDB_CLEANUP_EXPLORER_SELECT.bmp" />

@@ -26,11 +26,11 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 
 STRINGTABLE
 BEGIN
-    AFX_IDS_APP_TITLE       "WinDirStat"
-    IDS_AUTHOR_EMAIL        "team@windirstat.net"
-    IDS_URL_WEBSITE         "https://windirstat.net"
-    IDS_URL_HELP            "https://github.com/windirstat/windirstat/wiki"
-    IDS_URL_REPORT_BUG      "https://github.com/windirstat/windirstat/issues/new/choose"
+    AFX_IDS_APP_TITLE       "RvtDirStat"
+    IDS_AUTHOR_EMAIL        "temp@gmail.com"
+    IDS_URL_WEBSITE         "https://github.com/iorhanV/rvtdirstat"
+    IDS_URL_HELP            "https://github.com/iorhanV/rvtdirstat"
+    IDS_URL_REPORT_BUG      "https://github.com/iorhanV/rvtdirstat/issues/new/choose"
     IDS_FILTER_EXAMPLE_FILES "*.sys\n*.exe"
     IDS_FILTER_EXAMPLE_DIRS "C:\\Windows\\Sys*\nC:\\ProgramData"
     IDS_FILTER_EXAMPLE_FILES_REGEX ".*\\.sys\n.*\\.exe"
@@ -69,7 +69,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDR_MAINFRAME           ICON                    "res\\WinDirStat.ico"
+IDR_MAINFRAME           ICON                    "res\\RvtDirStat.ico"
 
 
 #ifdef APSTUDIO_INVOKED
@@ -98,7 +98,7 @@ BEGIN
     "#if !defined(AFX_RESOURCE_DLL)\r\n"
     "LANGUAGE 9, 1\r\n"
     "#pragma code_page(65001)\r\n"
-    "#include ""res\\windirstat.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""res\\rvtdirstat.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
     "#include ""afxres.rc""         // Standard components\r\n"
     "#include ""afxribbon.rc""        // MFC ribbon and control bar resources \r\n"
     "#endif\r\n"
@@ -456,6 +456,18 @@ BEGIN
     PUSHBUTTON      "IDS_GENERIC_CANCEL",IDCANCEL,269,25,50,14
 END
 
+IDD_SEARCHRVT DIALOGEX 0, 0, 325, 204
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "IDS_SEARCHOPT_TITLE"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "IDS_SEARCHOPT_RVT",IDC_RVT_SEARCH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,10,231,10
+    CONTROL         "IDS_SEARCHOPT_RFA",IDC_RFA_SEARCH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,30,225,10
+    CONTROL         "IDS_SEARCHOPT_BACKUP",IDC_BACKUP_SEARCH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,50,234,10
+    DEFPUSHBUTTON   "IDS_GENERIC_OK", IDOK, 269,7,50,14
+    PUSHBUTTON      "IDS_GENERIC_CANCEL", IDCANCEL, 269,25,50,14
+END
+
 IDD_PAGE_CLEANUPS DIALOGEX 0, 0, 381, 205
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_DISABLED | WS_CAPTION | WS_SYSMENU
 CAPTION "IDS_PAGE_CLEANUPS_TITLE"
@@ -699,6 +711,14 @@ BEGIN
         TOPMARGIN, 7
         BOTTOMMARGIN, 195
     END
+    
+    IDD_SEARCHRVT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 318
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 195
+    END
 
     IDD_PAGE_CLEANUPS, DIALOG
     BEGIN
@@ -827,6 +847,11 @@ BEGIN
     0
 END
 
+IDD_SEARCHRVT AFX_DIALOG_LAYOUT
+BEGIN
+  0
+END
+
 IDD_PAGE_TREEMAP AFX_DIALOG_LAYOUT
 BEGIN
     0
@@ -917,7 +942,7 @@ END
 #if !defined(AFX_RESOURCE_DLL)
 LANGUAGE 9, 1
 #pragma code_page(65001)
-#include "res\windirstat.rc2"  // non-Microsoft Visual C++ edited resources
+#include "res\rvtdirstat.rc2"  // non-Microsoft Visual C++ edited resources
 #include "afxres.rc"         // Standard components
 #include "afxribbon.rc"        // MFC ribbon and control bar resources 
 #endif

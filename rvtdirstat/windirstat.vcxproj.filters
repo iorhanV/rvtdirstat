@@ -51,10 +51,10 @@
     <None Include="res\IDR_MAINFRAME.bmp">
       <Filter>Resource Files\Resources</Filter>
     </None>
-    <None Include="res\windirstat.manifest">
+    <None Include="res\rvtdirstat.manifest">
       <Filter>Resource Files\Resources</Filter>
     </None>
-    <None Include="res\windirstat.rc2">
+    <None Include="res\rvtdirstat.rc2">
       <Filter>Resource Files\Resources</Filter>
     </None>
     <None Include="res\langs\lang_cs.bin">
@@ -512,7 +512,7 @@
     <Image Include="res\toolbar\IDB_SCAN_STOP.bmp">
       <Filter>Resource Files\Resources</Filter>
     </Image>
-    <Image Include="res\WinDirStat.ico">
+    <Image Include="res\RvtDirStat.ico">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\toolbar\IDB_FILTER.bmp">
