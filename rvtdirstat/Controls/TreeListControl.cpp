@@ -662,6 +662,18 @@ void CTreeListControl::ExpandItem(const int i, const bool scroll)
     for (const int c : std::views::iota(0, childItems))
     {
         CTreeListItem* child = item->GetTreeListChild(c);
+
+        // Filter out items with 0 bytes
+        if (auto* linkedItem = child->GetLinkedItem())
+        {
+            // Only hide the item if it is fully scanned (Done) and is effectively empty.
+            // Items currently being scanned start at 0 bytes and must be shown.
+            if (linkedItem->IsDone() && linkedItem->GetSizePhysical() == 0)
+            {
+                continue;
+            }
+        }
+
         InsertItem(i + 1 + c, child);
 
         // The calculation of item width is very expensive for
@@ -780,6 +792,16 @@ void CTreeListControl::OnChildAdded(const CTreeListItem* parent, CTreeListItem* 
     {
         return;
     }
+
+    // Do not show the child if it has 0 bytes
+    if (auto* linkedItem = const_cast<CTreeListItem*>(child)->GetLinkedItem())
+    {
+        if (linkedItem->IsDone() && linkedItem->GetSizePhysical() == 0)
+        {
+            return;
+        }
+    }
+
 
     const int p = FindTreeItem(parent);
     ASSERT(p != -1);
