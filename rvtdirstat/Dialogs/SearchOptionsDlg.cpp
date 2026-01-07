@@ -86,23 +86,24 @@ void CSearchOptionsDlg::OnOK()
 
     // Clear existing filters if you want this dialog to be an "exclusive" allow list
     COptions::FilteringExcludeFilesRegex.clear();
+    COptions::FilteringAllowFilesRegex.clear();
 
     if (m_RVTSearch)
     {
         // Simple match for .rvt files
-        // COptions::FilteringAllowFilesRegex.emplace_back(L".*\\.rvt$",
-        // std::regex_constants::icase | std::regex_constants::optimize);
-        COptions::FilteringAllowFilesRegex.emplace_back(L".*\\.[0-9]{4}\\.rvt$",
-            std::regex_constants::icase | std::regex_constants::optimize);
+        COptions::FilteringAllowFilesRegex.emplace_back(L".*\\.rvt$",
+        std::regex_constants::icase | std::regex_constants::optimize);
+        // COptions::FilteringAllowFilesRegex.emplace_back(L".*\\.[0-9]{4}\\.rvt$",
+        //     std::regex_constants::icase | std::regex_constants::optimize);
     }
 
     if (m_RFASearch)
     {
         // Simple match for .rfa files
-        // COptions::FilteringAllowFilesRegex.emplace_back(L".*\\.rfa$",
-        // std::regex_constants::icase | std::regex_constants::optimize);
-        COptions::FilteringAllowFilesRegex.emplace_back(L".*\\.[0-9]{4}\\.rfa$",
-            std::regex_constants::icase | std::regex_constants::optimize);
+        COptions::FilteringAllowFilesRegex.emplace_back(L".*\\.rfa$",
+        std::regex_constants::icase | std::regex_constants::optimize);
+        // COptions::FilteringAllowFilesRegex.emplace_back(L".*\\.[0-9]{4}\\.rfa$",
+        //     std::regex_constants::icase | std::regex_constants::optimize);
     }
 
     if (m_BACKUPSearch)
@@ -112,7 +113,7 @@ void CSearchOptionsDlg::OnOK()
             std::regex_constants::icase | std::regex_constants::optimize);
     }
 
-    COptions::CompileFilters();
+    // COptions::CompileFilters();
 
     CLayoutDialogEx::OnOK();
 }

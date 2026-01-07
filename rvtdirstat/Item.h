@@ -80,6 +80,10 @@ using ITEMTYPE = enum ITEMTYPE : std::uint32_t
     ITF_DONE       = 1 << 28, // Indicates done processing
     ITF_MASK       = 0xFF000000,
 
+    ITF_REVIT      = 1 << 29, // Indicates if item is a revit file
+    ITF_BACKUP     = 1 << 30, // Indicates if item is a backup file
+
+
     ITF_ANY        = 0xFFFFFFFF, // Indicates any item type or flag
 };
 
@@ -150,9 +154,9 @@ public:
     CRect TmiGetRectangle() const override { return tmiRect; };
     void TmiSetRectangle(const CRect& rc) override { tmiRect = rc; }
     COLORREF TmiGetGraphColor() const override { return GetGraphColor(); }
-    int TmiGetChildCount() const override { 
+    int TmiGetChildCount() const override {
         if (m_folderInfo == nullptr || IsTypeOrFlag(IT_HLINKS_IDX)) return 0;
-        return static_cast<int>(m_folderInfo->m_children.size()); 
+        return static_cast<int>(m_folderInfo->m_children.size());
     }
     Item* TmiGetChild(const int c) const override { return m_folderInfo->m_children[c]; }
     ULONGLONG TmiGetSize() const override { return COptions::TreeMapUseLogical ? GetSizeLogical() : GetSizePhysical(); }
@@ -240,7 +244,7 @@ public:
     std::vector<CItem*> GetDriveItems() const;
 
     std::vector<BYTE> GetFileHash(ULONGLONG hashSizeLimit, BlockingQueue<CItem*>* queue);
-    
+
     bool IsDone() const
     {
         return IsTypeOrFlag(ITF_DONE);

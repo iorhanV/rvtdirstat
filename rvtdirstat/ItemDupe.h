@@ -58,6 +58,7 @@ public:
     int CompareSibling(const CTreeListItem* tlib, int subitem) const override;
     int GetTreeListChildCount() const override;
     CTreeListItem* GetTreeListChild(int i) const override;
+    COLORREF GetItemTextColor() const;
     HICON GetIcon() override;
     CItem* GetLinkedItem() override { return m_item; }
 
