@@ -26,6 +26,7 @@
 #include "SearchDlg.h"
 #include "MessageBoxDlg.h"
 #include "ProgressDlg.h"
+#include "SearchOptionsDlg.h"
 
 IMPLEMENT_DYNCREATE(CDirStatDoc, CDocument)
 
@@ -275,7 +276,7 @@ ULONGLONG CDirStatDoc::GetRootSize() const
 void CDirStatDoc::RefreshReparsePointItems()
 {
     CWaitCursor wc;
-    
+
     if (CItem* root = GetRootItem(); nullptr != root)
     {
         RecurseRefreshReparsePoints(root);
@@ -643,7 +644,7 @@ void CDirStatDoc::AskForConfirmation(USERDEFINEDCLEANUP* udc, const CItem* item)
         return;
     }
 
-    const std::wstring msg = Localization::Format(udc->RecurseIntoSubdirectories ? 
+    const std::wstring msg = Localization::Format(udc->RecurseIntoSubdirectories ?
         Localization::Lookup(IDS_RUDC_CONFIRMATIONss) : Localization::Lookup(IDS_UDC_CONFIRMATIONss),
         udc->Title.Obj(), item->GetPath());
     if (IDYES != WdsMessageBox(msg, MB_YESNO))
@@ -719,7 +720,7 @@ void CDirStatDoc::RefreshAfterUserDefinedCleanup(const USERDEFINEDCLEANUP* udc, 
 
 void CDirStatDoc::RecursiveUserDefinedCleanup(USERDEFINEDCLEANUP* udc, const std::wstring& rootPath, const std::wstring& currentPath)
 {
-    // (Depth first.) 
+    // (Depth first.)
 
     FinderBasic finder;
     for (BOOL b = finder.FindFile(currentPath); b; b = finder.FindNext())
@@ -901,7 +902,7 @@ void CDirStatDoc::OnUpdateCentralHandler(CCmdUI* pCmdUI)
     static bool (*isElevationAvailable)(CItem*) = [](CItem*) { return IsElevationActive(); };
     static bool (*isDupeTabVisible)(CItem*) = [](CItem*) { return CMainFrame::Get()->GetFileTabbedView()->IsDupeTabVisible(); };
     static bool (*isVhdFile)(CItem*) = [](CItem* item) { return item != nullptr && IsElevationActive() && (!item->IsTypeOrFlag(IT_FILE) || item->GetExtension() == L".vhdx"); };
-    
+
     static std::unordered_map<UINT, const commandFilter> filters
     {
         // ID                           none   many   early  focus        types
@@ -909,7 +910,7 @@ void CDirStatDoc::OnUpdateCentralHandler(CCmdUI* pCmdUI)
         { ID_CLEANUP_DELETE_BIN,      { false, true,  false, LF_NONE,     { IT_DIRECTORY, IT_FILE }, notRoot } },
         { ID_CLEANUP_DISK_CLEANUP  ,  { true,  true,  false, LF_NONE,     { ITF_ANY }, isElevationAvailable } },
         { ID_CLEANUP_MOVE_TO,         { false, true,  false, LF_NONE,     { IT_DIRECTORY, IT_FILE }, notRoot } },
-        { ID_CLEANUP_REMOVE_PROGRAMS, { true,  true,  false, LF_NONE,     { ITF_ANY } } },        
+        { ID_CLEANUP_REMOVE_PROGRAMS, { true,  true,  false, LF_NONE,     { ITF_ANY } } },
         { ID_CLEANUP_DISM_ANALYZE,    { true,  true,  false, LF_NONE,     { ITF_ANY }, isElevationAvailable } },
         { ID_CLEANUP_DISM_NORMAL,     { true,  true,  false, LF_NONE,     { ITF_ANY }, isElevationAvailable } },
         { ID_CLEANUP_DISM_RESET,      { true,  true,  false, LF_NONE,     { ITF_ANY }, isElevationAvailable } },
@@ -1098,6 +1099,10 @@ void CDirStatDoc::OnLoadResults()
     CFileDialog dlg(TRUE, L"csv", nullptr, OFN_EXPLORER | OFN_DONTADDTORECENT | OFN_PATHMUSTEXIST, fileSelectString.c_str());
     if (dlg.DoModal() != IDOK) return;
 
+    // Instantiate and display the IDD_SEARCHOPTIONS dialog
+    // CSearchOptionsDlg searchOptionsDlg;
+    // searchOptionsDlg.DoModal();
+
     CItem* newroot = nullptr;
     CProgressDlg(0, true, AfxGetMainWnd(), [&](CProgressDlg*)
     {
@@ -1256,7 +1261,7 @@ void CDirStatDoc::OnExplorerSelect()
         std::filesystem::path target(item->GetPath());
         paths.insert(target.parent_path());
     }
-    
+
     for (const auto& path : paths)
     {
         // create path pidl
@@ -1921,12 +1926,12 @@ void CDirStatDoc::StartScanningEngine(std::vector<CItem*> items)
         StopReason stopReason = Default;
         for (auto& queue : m_queues | std::views::values)
             stopReason = static_cast<StopReason>(queue.WaitForCompletion());
-   
+
         // Restore unknown and freespace items
         for (const auto& item : items)
         {
             if (!item->IsTypeOrFlag(IT_DRIVE)) continue;
-            
+
             if (COptions::ShowFreeSpace)
             {
                 item->CreateFreeSpaceItem();

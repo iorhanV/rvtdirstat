@@ -233,6 +233,15 @@ std::wstring CItem::GetText(const int subitem) const
 
 COLORREF CItem::GetItemTextColor() const
 {
+    // Logic to grey out main Revit files that aren't backups
+    if (IsTypeOrFlag(ITF_REVIT))
+    {
+        if (!IsTypeOrFlag(ITF_BACKUP))
+        {
+            return RGB(128, 128, 128);
+        }
+    }
+
     // Get the file/folder attributes
     const DWORD attr = GetAttributes();
 
@@ -1160,11 +1169,11 @@ void CItem::ScanItems(BlockingQueue<CItem*> * queue, FinderNtfsContext& contextN
                     }
 
                     // Exclude files matching name filter
-                    // if (!COptions::FilteringExcludeFilesRegex.empty() && std::ranges::any_of(COptions::FilteringExcludeFilesRegex,
-                    //     [&finder](const auto& pattern) { return std::regex_match(finder->GetFileName(), pattern); }))
-                    // {
-                    //     continue;
-                    // }
+                    if (!COptions::FilteringExcludeFilesRegex.empty() && std::ranges::any_of(COptions::FilteringExcludeFilesRegex,
+                        [&finder](const auto& pattern) { return std::regex_match(finder->GetFileName(), pattern); }))
+                    {
+                        continue;
+                    }
 
                     // Allow only files matching name filter (Exclude if NOT matching any pattern)
                     if (!COptions::FilteringAllowFilesRegex.empty() && !std::ranges::any_of(COptions::FilteringAllowFilesRegex,
@@ -1742,6 +1751,9 @@ CItem* CItem::AddDirectory(const Finder& finder)
     child->SetLastChange(finder.GetLastWriteTime());
     child->SetAttributes(finder.GetAttributes());
     child->SetReparseTag(finder.GetReparseTag());
+
+    // L".*_backup[\\\\/][^\\\\/]+$"
+
     if (finder.IsReserved() || this->IsTypeOrFlag(ITF_RESERVED)) child->SetFlag(ITF_RESERVED);
     if (finder.IsOffVolumeReparsePoint() && follow) child->SetFlag(ITF_BASIC);
     AddChild(child);
@@ -1759,6 +1771,19 @@ CItem* CItem::AddFile(Finder& finder)
     child->SetLastChange(finder.GetLastWriteTime());
     child->SetAttributes(finder.GetAttributes());
     child->SetReparseTag(finder.GetReparseTag());
+
+    const std::wstring ext = child->GetExtension();
+    if (ext == L".rvt" || ext == L".rfa")
+    {
+        child->SetFlag(ITF_REVIT);
+        // Static ensures this is only compiled once for the entire run
+        static const std::wregex backupPattern(L".*\\.[0-9]{4}\\.(rvt|rfa)$", std::regex_constants::icase);
+        if (std::regex_match(child->GetName(), backupPattern))
+        {
+            child->SetFlag(ITF_BACKUP);
+        }
+    }
+
     if (finder.IsReserved() || this->IsTypeOrFlag(ITF_RESERVED)) child->SetFlag(ITF_RESERVED);
     child->ExtensionDataAdd();
     AddChild(child);

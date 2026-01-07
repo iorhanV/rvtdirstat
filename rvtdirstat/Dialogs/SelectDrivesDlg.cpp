@@ -574,10 +574,7 @@ void CSelectDrivesDlg::OnOK()
 
     CLayoutDialogEx::OnOK();
 
-
-
     // Instantiate and display the IDD_SEARCHOPTIONS dialog
-
     CSearchOptionsDlg searchOptionsDlg;
     searchOptionsDlg.DoModal();
 

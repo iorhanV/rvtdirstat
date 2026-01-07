@@ -62,7 +62,7 @@ int CItemTop::CompareSibling(const CTreeListItem* tlib, const int subitem) const
 {
     // Root node
     if (GetParent() == nullptr) return 0;
-    
+
     // Parent hash nodes
     if (m_item == nullptr) return 0;
 
@@ -79,6 +79,24 @@ int CItemTop::GetTreeListChildCount()const
 CTreeListItem* CItemTop::GetTreeListChild(const int i) const
 {
     return m_children[i];
+}
+
+COLORREF CItemTop::GetItemTextColor() const
+{
+    if (m_item != nullptr)
+    {
+        // Logic to grey out main Revit files that aren't backups in the Top Files list
+        if (m_item->IsTypeOrFlag(ITF_REVIT))
+        {
+            if (!m_item->IsTypeOrFlag(ITF_BACKUP))
+            {
+                return RGB(128, 128, 128);
+            }
+        }
+
+        return m_item->GetItemTextColor();
+    }
+    return CTreeListItem::GetItemTextColor();
 }
 
 HICON CItemTop::GetIcon()

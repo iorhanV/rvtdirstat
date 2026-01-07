@@ -219,6 +219,7 @@ public:
     static std::vector<std::wregex> FilteringAllowFilesRegex;
     static ULONGLONG FilteringSizeMinimumCalculated;
 
+    static Setting<std::wstring> FilteringAllowFiles;
     static void SanitizeRect(RECT& rect);
     static void LoadAppSettings();
     static void PreProcessPersistedSettings();

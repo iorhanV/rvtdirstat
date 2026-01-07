@@ -1,4 +1,4 @@
-﻿// WinDirStat - Directory Statistics
+﻿ // WinDirStat - Directory Statistics
 // Copyright © WinDirStat Team
 //
 // This program is free software: you can redistribute it and/or modify
@@ -658,6 +658,7 @@ void CTreeListControl::ExpandItem(const int i, const bool scroll)
     SetRedraw(FALSE);
     LockWindowUpdate();
     int maxwidth = GetSubItemWidth(item, 0);
+
     const auto childItems = item->GetTreeListChildCount();
     for (const int c : std::views::iota(0, childItems))
     {
@@ -759,6 +760,26 @@ void CTreeListControl::OnLvnItemChangingList(NMHDR* pNMHDR, LRESULT* pResult)
         (pNMLV->uOldState & LVIS_SELECTED) == 0 &&
         (pNMLV->uNewState & LVIS_SELECTED) != 0;
 
+    if (requestingSelection)
+    {
+        if (auto* item = GetItem(pNMLV->iItem))
+        {
+            if (auto* linkedItem = item->GetLinkedItem())
+            {
+                // Check if it's either a Revit project (.rvt) or family (.rfa)
+                if (linkedItem->IsTypeOrFlag(ITF_REVIT))
+                {
+                    if (!linkedItem->IsTypeOrFlag(ITF_BACKUP))
+                    {
+                        // It's a main file (not a backup), so block selection
+                        *pResult = TRUE;
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
     // if in shift-extend mode, prevent selecting of non-adjacent nodes
     if (IsShiftKeyDown() && requestingSelection)
     {
@@ -800,6 +821,9 @@ void CTreeListControl::OnChildAdded(const CTreeListItem* parent, CTreeListItem* 
         {
             return;
         }
+
+
+
     }
 
 
