@@ -56,6 +56,7 @@ public:
     HICON m_dupesImage = nullptr;        // <Duplicates>
     HICON m_searchImage = nullptr;       // <Search>
     HICON m_largestImage = nullptr;      // <Largest>
+    HICON m_revitImage = nullptr;        // <Revit>
     HICON m_emptyImage = nullptr;        // For items whose icon cannot be found
     HICON m_junctionImage = nullptr;     // For normal junctions
     HICON m_symlinkImage = nullptr;      // For symbolic links
@@ -76,4 +77,5 @@ public:
     HICON GetDupesImage() const { return m_dupesImage; }
     HICON GetSearchImage() const { return m_searchImage; }
     HICON GetLargestImage() const { return m_largestImage; }
+    HICON GetRevitImage() const { return m_revitImage; }
 };

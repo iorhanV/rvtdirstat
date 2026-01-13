@@ -24,6 +24,7 @@ class CItem;
 class CItemDupe;
 class CItemTop;
 class CItemSearch;
+class CItemRevit;
 enum LOGICAL_FOCUS : uint8_t;
 
 //
@@ -99,6 +100,7 @@ protected:
     CItemDupe* GetRootItemDupe() const;
     CItemTop* GetRootItemTop() const;
     CItemSearch* GetRootItemSearch() const;
+    CItemRevit* GetRootItemRevit() const;
     bool IsZoomed() const;
 
     void SetHighlightExtension(const std::wstring& ext);
@@ -133,6 +135,7 @@ protected:
     static bool DupeListHasFocus();
     static bool TopListHasFocus();
     static bool SearchListHasFocus();
+    static bool RevitListHasFocus();
     std::vector<CItem*> GetAllSelected();
     void InvalidateSelectionCache();
     static CTreeListControl* GetFocusControl();
@@ -147,6 +150,7 @@ protected:
     CItemDupe* m_rootItemDupe = nullptr; // The very root dupe item
     CItemTop* m_rootItemTop = nullptr; // The very root top item
     CItemSearch* m_rootItemSearch = nullptr; // The very root search item
+    CItemRevit* m_rootItemRevit = nullptr; // The very root revit item
     std::wstring m_highlightExtension; // Currently highlighted extension
     CItem* m_zoomItem = nullptr;   // Current "zoom root"
 
@@ -159,7 +163,7 @@ protected:
     std::optional<std::jthread> m_thread; // Wrapper thread so we do not occupy the UI thread
 
     // Cache for GetAllSelected to avoid expensive queries
-    LOGICAL_FOCUS m_cachedFocus{}; 
+    LOGICAL_FOCUS m_cachedFocus{};
     std::vector<CItem*> m_cachedSelection;
     bool m_selectionCacheValid = false;
 

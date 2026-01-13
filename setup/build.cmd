@@ -1,5 +1,5 @@
 @ECHO OFF
-TITLE Building WinDirStat Installer
+TITLE Building RvtDirStat Installer
 SETLOCAL ENABLEDELAYEDEXPANSION
 
 :: setup release type
@@ -19,7 +19,7 @@ IF %ERRORLEVEL% NEQ 0 (
 )
 
 :: grab current version information from source
-FOR /F "TOKENS=2,3 DELIMS=	 " %%A IN ('FINDSTR "#define.PRD_" ..\windirstat\version.h') DO SET %%A=%%B
+FOR /F "TOKENS=2,3 DELIMS=	 " %%A IN ('FINDSTR "#define.PRD_" ..\rvtdirstat\version.h') DO SET %%A=%%B
 
 :: grab current data for installer build version
 FOR /F %%X in ('git -C .. rev-list --count --all') DO SET PRD_BUILD=%%X
@@ -29,8 +29,8 @@ SET VERSTRING=-d MAJVER=%PRD_MAJVER% -d MINVER=%PRD_MINVER% -d PATCH=%PRD_PATCH%
 
 :: create the installers
 FOR %%A IN (arm64 x86 x64) DO (
-   FOR /F %%S in ('POWERSHELL -NoLogo -NoProfile "[int] ((Get-Item ..\build\windirstat_%%A.exe).Length / 1024)"') DO SET SIZE=%%S
-   wix build -arch %%A "WinDirStat.wxs" -o "%BLDDIR%\WinDirStat-%%A.msi" -d RELTYPE=%RELTYPE% %VERSTRING% -d EstimatedSize=!SIZE! -ext WixToolset.UI.wixext -ext WixToolset.Util.wixext
+   FOR /F %%S in ('POWERSHELL -NoLogo -NoProfile "[int] ((Get-Item ..\build\rvtdirstat_%%A.exe).Length / 1024)"') DO SET SIZE=%%S
+   wix build -arch %%A "RvtDirStat.wxs" -o "%BLDDIR%\RvtDirStat-%%A.msi" -d RELTYPE=%RELTYPE% %VERSTRING% -d EstimatedSize=!SIZE! -ext WixToolset.UI.wixext -ext WixToolset.Util.wixext
 )
 
 EXIT /B 0

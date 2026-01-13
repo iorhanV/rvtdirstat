@@ -18,10 +18,10 @@
 #include "pch.h"
 #include "FileTabbedView.h"
 #include "FileSearchView.h"
+#include "FileRevitView.h"
 #include "FileTopView.h"
 #include "FileTreeView.h"
 #include "MessageBoxDlg.h"
-#include "ItemSearch.h"
 
 IMPLEMENT_DYNCREATE(CFileTabbedView, CTabView)
 
@@ -43,7 +43,9 @@ int CFileTabbedView::OnCreate(const LPCREATESTRUCT lpCreateStruct)
     m_fileDupeViewIndex = AddView(RUNTIME_CLASS(CFileDupeView), Localization::Lookup(IDS_DUPLICATE_FILES).c_str(), CHAR_MAX);
     m_fileDupeView = DYNAMIC_DOWNCAST(CFileDupeView, GetTabControl().GetTabWnd(m_fileDupeViewIndex));
     m_fileSearchViewIndex = AddView(RUNTIME_CLASS(CFileSearchView), Localization::Lookup(IDS_SEARCH_RESULTS).c_str(), CHAR_MAX);
-    m_fileSearchView = DYNAMIC_DOWNCAST(CFileSearchView, GetTabControl().GetTabWnd(m_fileSearchViewIndex));
+    m_fileSearchView = DYNAMIC_DOWNCAST(CFileSearchView, GetTabControl().GetTabWnd(m_fileRevitViewIndex));
+    m_fileRevitViewIndex = AddView(RUNTIME_CLASS(CFileRevitView), Localization::Lookup(IDS_REVIT_FILES).c_str(), CHAR_MAX);
+    m_fileRevitView = DYNAMIC_DOWNCAST(CFileRevitView, GetTabControl().GetTabWnd(m_fileRevitViewIndex));
 
     return 0;
 }
@@ -69,6 +71,11 @@ void CFileTabbedView::SetSearchTabVisibility(const bool show)
     GetTabControl().ShowTab(m_fileSearchViewIndex, show);
 }
 
+void CFileTabbedView::SetRevitTabVisibility(const bool show)
+{
+    GetTabControl().ShowTab(m_fileRevitViewIndex, show);
+}
+
 BOOL CFileTabbedView::OnEraseBkgnd(CDC* /*pDC*/)
 {
     return TRUE;
@@ -89,7 +96,7 @@ LRESULT CFileTabbedView::OnChangeActiveTab(WPARAM wp, LPARAM lp)
 bool CFileTabbedView::CycleTab(const bool forward)
 {
     std::vector<int> visibleTabs;
-    for (const int tabIndex : { m_fileTreeViewIndex, m_fileTopViewIndex, m_fileDupeViewIndex, m_fileSearchViewIndex })
+    for (const int tabIndex : { m_fileTreeViewIndex, m_fileRevitViewIndex, m_fileTopViewIndex, m_fileDupeViewIndex, m_fileSearchViewIndex })
     {
         if (GetTabControl().IsTabVisible(tabIndex)) visibleTabs.push_back(tabIndex);
     }
@@ -100,9 +107,9 @@ bool CFileTabbedView::CycleTab(const bool forward)
 
     const size_t currentPos = std::distance(visibleTabs.begin(), it);
     const size_t nextPos = currentPos + (forward ? 1 : -1);
-    
+
     if (nextPos >= visibleTabs.size()) return false;
-    
+
     SetActiveView(visibleTabs[nextPos]);
     return true;
 }

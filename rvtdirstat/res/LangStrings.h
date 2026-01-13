@@ -233,6 +233,7 @@ constexpr std::wstring_view IDS_RESET_ALL_PREFERENCES = L"IDS_RESET_ALL_PREFEREN
 constexpr std::wstring_view IDS_RESET_DEFAULTS = L"IDS_RESET_DEFAULTS";
 constexpr std::wstring_view IDS_RESTART_REQUEST = L"IDS_RESTART_REQUEST";
 constexpr std::wstring_view IDS_RESUME = L"IDS_RESUME";
+constexpr std::wstring_view IDS_REVIT_FILES = L"IDS_REVIT_FILES";
 constexpr std::wstring_view IDS_RUDC_CONFIRMATIONss = L"IDS_RUDC_CONFIRMATIONss";
 constexpr std::wstring_view IDS_SCANNING = L"IDS_SCANNING";
 constexpr std::wstring_view IDS_SCANNING_EXCLUSIONS_DIRECTORY = L"IDS_SCANNING_EXCLUSIONS_DIRECTORY";

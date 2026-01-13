@@ -21,8 +21,8 @@ SET PUBDIR=%THISDIR%\publish
 
 :: cert info to use for signing
 :: set TSAURL=http://time.certum.pl/
-:: set LIBNAME=WinDirStat
-:: set LIBURL=https://github.com/WinDirStat/WinDirStat
+:: set LIBNAME=RvtDirStat
+:: set LIBURL=https://github.com/iorhanV/rvtdirstat
 
 :: prepend preferred git and 7-zip paths
 IF EXIST "%ProgramFiles%\7-Zip" SET PATH=%ProgramFiles%\7-Zip;%PATH%
@@ -56,7 +56,7 @@ TIMEOUT /t 3 /nobreak >NUL
 PWSH.EXE -Help >NUL 2>&1
 IF %ERRORLEVEL% NEQ 0 ECHO PowerShell not found; skipping executable pruning
 IF %ERRORLEVEL% EQU 0 FOR %%A IN (arm64 x86 x64) DO (
-  PWSH -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Unrestricted -File "%THISDIR%\windirstat\Build\Prune Executable.ps1" "%BLDDIR%\WinDirStat_%%A.exe"
+  PWSH -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Unrestricted -File "%THISDIR%\rvtdirstat\Build\Prune Executable.ps1" "%BLDDIR%\RvtDirStat_%%A.exe"
 )
 
 :: sign the main executables 
@@ -72,29 +72,29 @@ CALL "%THISDIR%\setup\build.cmd" "%RELTYPE%"
 IF EXIST "%PUBDIR%" RD /S /Q "%PUBDIR%"
 FOR %%A IN (arm64 x86 x64) DO (
    IF NOT EXIST "%PUBDIR%\%%A" MKDIR "%PUBDIR%\%%A"
-   COPY /Y "%BLDDIR%\WinDirStat_%%A.exe" "%PUBDIR%\%%A\WinDirStat.exe"
-   COPY /Y "%BLDDIR%\WinDirStat_%%A.pdb" "%PUBDIR%\%%A\WinDirStat.pdb"
-   COPY /Y "%BLDDIR%\WinDirStat-%%A.msi" "%PUBDIR%"
+   COPY /Y "%BLDDIR%\RvtDirStat_%%A.exe" "%PUBDIR%\%%A\RvtDirStat.exe"
+   COPY /Y "%BLDDIR%\RvtDirStat_%%A.pdb" "%PUBDIR%\%%A\RvtDirStat.pdb"
+   COPY /Y "%BLDDIR%\RvtDirStat-%%A.msi" "%PUBDIR%"
 )
 
 :: 7-zip executables and debug files
 7z.EXE >NUL 2>&1
 IF %ERRORLEVEL% NEQ 0 ECHO 7-Zip not found; skipping 7-Zip archive
-IF %ERRORLEVEL% EQU 0 7z.EXE a -mx=9 "%PUBDIR%\WinDirStat.7z" "%PUBDIR%\*\*.exe"
-IF %ERRORLEVEL% EQU 0 7z.EXE a -mx=9 "%PUBDIR%\WinDirStat-DebugSymbols.7z" "%PUBDIR%\*\*.pdb"
+IF %ERRORLEVEL% EQU 0 7z.EXE a -mx=9 "%PUBDIR%\RvtDirStat.7z" "%PUBDIR%\*\*.exe"
+IF %ERRORLEVEL% EQU 0 7z.EXE a -mx=9 "%PUBDIR%\RvtDirStat-DebugSymbols.7z" "%PUBDIR%\*\*.pdb"
 DEL /F /S /Q "%PUBDIR%\*.pdb" >NUL 2>&1
 
 :: zip up executables
 SET POWERSHELL=POWERSHELL.EXE -NoProfile -NonInteractive -NoLogo -ExecutionPolicy Unrestricted
 PUSHD "%PUBDIR%"
 FOR %%A IN (arm64 x86 x64) DO (
-   %POWERSHELL% -Command "Compress-Archive '%PUBDIR%\%%A' -DestinationPath ('%PUBDIR%\WinDirStat.zip') -Update"
+   %POWERSHELL% -Command "Compress-Archive '%PUBDIR%\%%A' -DestinationPath ('%PUBDIR%\RvtDirStat.zip') -Update"
 )
 POPD
 
 
 :: output hash information
-SET HASHFILE=%PUBDIR%\WinDirStat-Hashes.txt
+SET HASHFILE=%PUBDIR%\RvtDirStat-Hashes.txt
 IF EXIST "%HASHFILE%" DEL /F "%HASHFILE%"
 %POWERSHELL% -Command "Get-ChildItem -Include @('*.msi','*.exe','*.zip','*.7z') -Path '%PUBDIR%' -Recurse | Get-FileHash -Algorithm SHA256 | Out-File -Append '%HASHFILE%' -Width 256"
 %POWERSHELL% -Command "Get-ChildItem -Include @('*.msi','*.exe','*.zip','*.7z') -Path '%PUBDIR%' -Recurse | Get-FileHash -Algorithm SHA1 | Out-File -Append '%HASHFILE%' -Width 256"

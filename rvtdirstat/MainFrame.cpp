@@ -482,6 +482,7 @@ void CMainFrame::SetProgressComplete()
     CFileTreeControl::Get()->SortItems();
     CFileDupeControl::Get()->SortItems();
     CFileTopControl::Get()->SortItems();
+    CFileRevitControl::Get()->SortItems();
 }
 
 bool CMainFrame::IsScanSuspended() const
@@ -896,6 +897,12 @@ void CMainFrame::OnTimer(const UINT_PTR nIDEvent)
         {
             CFileTopControl::Get()->SortItems();
         }
+
+        // Conditionally sort duplicates
+        if (doInfrequentUpdate && GetFileTabbedView()->IsFileRevitViewTabActive())
+        {
+            CFileRevitControl::Get()->SortItems();
+        }
     }
 
     CFrameWndEx::OnTimer(nIDEvent);
@@ -1143,6 +1150,7 @@ void CMainFrame::MoveFocus(const LOGICAL_FOCUS logicalFocus)
         case LF_DUPELIST: GetFileDupeView()->SetFocus(); break;
         case LF_TOPLIST: GetFileTopView()->SetFocus(); break;
         case LF_SEARCHLIST: GetFileSearchView()->SetFocus(); break;
+        case LF_REVITLIST: GetFileRevitView()->SetFocus(); break;
         case LF_FILETREE: GetFileTreeView()->SetFocus(); break;
         case LF_NONE:
         {
