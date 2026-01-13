@@ -171,6 +171,7 @@ void CTreeMapView::DrawHighlights(CDC* pdc)
     {
     case LF_DUPELIST:
     case LF_TOPLIST:
+    case LF_REVITLIST:
     case LF_FILETREE:
     case LF_SEARCHLIST:
         DrawSelection(pdc);
@@ -356,7 +357,7 @@ void CTreeMapView::Inactivate()
     m_dimmed.DeleteObject();
     m_dimmed.Attach(m_bitmap.Detach());
     m_dimmedSize = m_size;
-    
+
     // Dim m_dimmed contents to indicate inactive/refresh state
     CClientDC dc(this);
     CDC dcmem;

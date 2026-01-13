@@ -1,53 +1,37 @@
-﻿// WinDirStat - Directory Statistics
-// Copyright © WinDirStat Team
-//
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// at your option any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program.  If not, see <https://www.gnu.org/licenses/>.
-//
-
+﻿
 #include "pch.h"
-#include "ItemTop.h"
-#include "FileTopControl.h"
+#include "ItemRevit.h"
+#include "FileRevitControl.h"
 
-CFileTopControl::CFileTopControl() : CTreeListControl(COptions::TopViewColumnOrder.Ptr(), COptions::TopViewColumnWidths.Ptr())
+CFileRevitControl::CFileRevitControl() : CTreeListControl(COptions::TopViewColumnOrder.Ptr(), COptions::TopViewColumnWidths.Ptr())
 {
     m_singleton = this;
 }
 
-bool CFileTopControl::GetAscendingDefault(const int column)
+bool CFileRevitControl::GetAscendingDefault(const int column)
 {
-    return column == COL_ITEMTOP_SIZE_PHYSICAL ||
-        column == COL_ITEMTOP_SIZE_LOGICAL ||
-        column == COL_ITEMTOP_LAST_CHANGE;
+    return column == COL_ITEMREVIT_SIZE_PHYSICAL ||
+        column == COL_ITEMREVIT_SIZE_LOGICAL ||
+        column == COL_ITEMREVIT_LAST_CHANGE;
 }
 
-BEGIN_MESSAGE_MAP(CFileTopControl, CTreeListControl)
+BEGIN_MESSAGE_MAP(CFileRevitControl, CTreeListControl)
     ON_WM_SETFOCUS()
     ON_WM_KEYDOWN()
     ON_NOTIFY_REFLECT_EX(LVN_DELETEALLITEMS, OnDeleteAllItems)
 END_MESSAGE_MAP()
 
-CFileTopControl* CFileTopControl::m_singleton = nullptr;
+CFileRevitControl* CFileRevitControl::m_singleton = nullptr;
 
-void CFileTopControl::ProcessTop(CItem * item)
+void CFileRevitControl::ProcessRevitFiles(CItem* item)
 {
     // Do not process if we are not tracking large files
-    if (COptions::LargeFileCount == 0) return;
+    // if (COptions::RevitFileCount == 0) return;
 
     m_queuedSet.push(item);
 }
 
-void CFileTopControl::SortItems()
+void CFileRevitControl::SortItems()
 {
     ASSERT(AfxGetThread() != nullptr);
 
@@ -55,11 +39,11 @@ void CFileTopControl::SortItems()
     if (GetItemCount() == 0) return;
 
     // Record size and complete resort if top N changed
-    const auto topN = static_cast<size_t>(COptions::LargeFileCount.Obj());
-    if (topN != m_previousTopN)
+    const auto topN = static_cast<size_t>(COptions::RevitFileCount.Obj());
+    if (topN != m_previousRevitN)
     {
         std::ranges::sort(m_sizeMap, CompareBySize);
-        m_previousTopN = topN;
+        m_previousRevitN = topN;
         m_needsResort = true;
     }
 
@@ -68,7 +52,7 @@ void CFileTopControl::SortItems()
     while (m_queuedSet.pop(newItem))
     {
         // Check if this item could affect the top N
-        if (m_sizeMap.size() < topN || newItem->GetSizeLogical() > m_topNMinSize)
+        if (m_sizeMap.size() < topN || newItem->GetSizeLogical() > m_revitNMinSize)
         {
             m_needsResort = true;
         }
@@ -92,19 +76,19 @@ void CFileTopControl::SortItems()
     // Update minimum size in top N for future comparisons
     if (m_sizeMap.size() >= topN)
     {
-        m_topNMinSize = m_sizeMap[topN - 1]->GetSizeLogical();
+        m_revitNMinSize = m_sizeMap[topN - 1]->GetSizeLogical();
     }
     else if (!m_sizeMap.empty())
     {
-        m_topNMinSize = m_sizeMap.back()->GetSizeLogical();
+        m_revitNMinSize = m_sizeMap.back()->GetSizeLogical();
     }
     else
     {
-        m_topNMinSize = 0;
+        m_revitNMinSize = 0;
     }
 
     // Update visual item removals
-    const auto root = reinterpret_cast<CItemTop*>(GetItem(0));
+    const auto root = reinterpret_cast<CItemRevit*>(GetItem(0));
     auto itemTrackerCopy = std::unordered_map(m_itemTracker);
     for (const auto& largeItem : m_sizeMap | std::views::take(topN))
     {
@@ -114,22 +98,27 @@ void CFileTopControl::SortItems()
             continue;
         }
 
-        const auto itemTop = new CItemTop(largeItem);
-        root->AddTopItemChild(itemTop);
-        m_itemTracker[largeItem] = itemTop;
+
+        if (largeItem->IsTypeOrFlag(ITF_REVIT))
+        {
+            const auto itemRevit = new CItemRevit(largeItem);
+            root->AddRevitItemChild(itemRevit);
+            m_itemTracker[largeItem] = itemRevit;
+        }
     }
 
     // Handle visual item additions
-    for (const auto& itemTop : itemTrackerCopy | std::views::values)
+    for (const auto& itemRevit : itemTrackerCopy | std::views::values)
     {
-        m_itemTracker.erase(itemTop->GetLinkedItem());
-        root->RemoveTopItemChild(itemTop);
+        m_itemTracker.erase(itemRevit->GetLinkedItem());
+        root->RemoveRevitItemChild(itemRevit);
     }
 
     CTreeListControl::SortItems();
 }
 
-void CFileTopControl::RemoveItem(CItem* item)
+
+void CFileRevitControl::RemoveItem(CItem* item)
 {
     // Create list of all items to remove
     std::unordered_set<CItem*> toRemove;
@@ -164,7 +153,7 @@ void CFileTopControl::RemoveItem(CItem* item)
     });
 }
 
-void CFileTopControl::OnItemDoubleClick(const int i)
+void CFileRevitControl::OnItemDoubleClick(const int i)
 {
     if (const auto item = GetItem(i)->GetLinkedItem();
         item != nullptr && item->IsTypeOrFlag(IT_FILE))
@@ -177,12 +166,12 @@ void CFileTopControl::OnItemDoubleClick(const int i)
     }
 }
 
-BOOL CFileTopControl::OnDeleteAllItems(NMHDR*, LRESULT* pResult)
+BOOL CFileRevitControl::OnDeleteAllItems(NMHDR*, LRESULT* pResult)
 {
     // Reset trackers
     m_sizeMap.clear();
     m_itemTracker.clear();
-    m_topNMinSize = 0;
+    m_revitNMinSize = 0;
     m_needsResort = true;
 
     // Allow deletion to proceed
@@ -190,13 +179,13 @@ BOOL CFileTopControl::OnDeleteAllItems(NMHDR*, LRESULT* pResult)
     return FALSE;
 }
 
-void CFileTopControl::OnSetFocus(CWnd* pOldWnd)
+void CFileRevitControl::OnSetFocus(CWnd* pOldWnd)
 {
     CTreeListControl::OnSetFocus(pOldWnd);
-    CMainFrame::Get()->SetLogicalFocus(LF_TOPLIST);
+    CMainFrame::Get()->SetLogicalFocus(LF_REVITLIST);
 }
 
-void CFileTopControl::OnKeyDown(const UINT nChar, const UINT nRepCnt, const UINT nFlags)
+void CFileRevitControl::OnKeyDown(const UINT nChar, const UINT nRepCnt, const UINT nFlags)
 {
     if (nChar == VK_TAB)
     {

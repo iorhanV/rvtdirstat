@@ -38,7 +38,7 @@ void CIconHandler::Initialize()
     std::call_once(s_once, [this]
     {
         m_filterOverride.RegisterFilter();
-        
+
         m_junctionImage = IconFromFontChar(L'⤷', RGB(0x3A, 0x3A, 0xFF), true);
         m_symlinkImage = IconFromFontChar(L'⤷', RGB(0x3A, 0xFF, 0x3A), true);
         m_junctionProtected = IconFromFontChar(L'⤷', RGB(0xFF, 0x3A, 0x3A), true);
@@ -48,8 +48,9 @@ void CIconHandler::Initialize()
         m_dupesImage = IconFromFontChar(L'⧈', DarkMode::WdsSysColor(COLOR_WINDOWTEXT));
         m_searchImage = IconFromFontChar(L'⊙', DarkMode::WdsSysColor(COLOR_WINDOWTEXT));
         m_largestImage = IconFromFontChar(L'⋙', DarkMode::WdsSysColor(COLOR_WINDOWTEXT));
+        m_revitImage = IconFromFontChar(L'⋙', DarkMode::WdsSysColor(COLOR_WINDOWTEXT));
         m_unknownImage = IconFromFontChar(L'?', RGB(0xCC,0xB8,0x66), true);
-        
+
         // Cache icon for boot drive
         std::wstring drive(_MAX_PATH, wds::chrNull);
         drive.resize(min(wcslen(L"C:\\"), GetWindowsDirectory(drive.data(), _MAX_PATH)));
@@ -78,7 +79,7 @@ void CIconHandler::Initialize()
                 {
                     const auto i = control->FindListItem(item);
                     if (i == -1 || *icon != nullptr) return;
-                     
+
                     *icon = iconTmp;
                     if (desc != nullptr) *desc = descTmp;
                     control->RedrawItems(i, i);

@@ -46,6 +46,6 @@
 #define TEXT_FILEDESC               Revit Package Manager (RvtDirStat) // component description
 
 #define STRING_COMPANY              IorhanV
-#define STRING_COPYRIGHT            "© IorhanV"
-#define STRING_EXENAME              WinDirStat.exe
+#define STRING_COPYRIGHT            "© IorhanVendruscolo"
+#define STRING_EXENAME              RvtDirStat.exe
 #define SOURCE_REPOSITORY           https://github.com/iorhanV/rvtdirstat

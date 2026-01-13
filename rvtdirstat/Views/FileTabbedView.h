@@ -22,6 +22,7 @@
 #include "FileDupeView.h"
 #include "FileTopView.h"
 #include "FileSearchView.h"
+#include "FileRevitView.h"
 
 class CFileTabbedView final : public CTabView
 {
@@ -29,17 +30,20 @@ public:
     bool IsFileTreeViewTabActive() { return GetTabControl().GetActiveTab() == m_fileTreeViewIndex; }
     bool IsFileDupeViewTabActive() { return GetTabControl().GetActiveTab() == m_fileDupeViewIndex; }
     bool IsFileTopViewTabActive() { return GetTabControl().GetActiveTab() == m_fileTopViewIndex; }
+    bool IsFileRevitViewTabActive() { return GetTabControl().GetActiveTab() == m_fileRevitViewIndex; }
     bool IsFileSearchViewTabActive() { return GetTabControl().GetActiveTab() == m_fileTopViewIndex; }
     CFileTopView* GetFileTopView() const { return m_fileTopView; }
     CFileTreeView* GetFileTreeView() const { return m_fileTreeView; }
     CFileDupeView* GetFileDupeView() const { return m_fileDupeView; }
     CFileSearchView* GetFileSearchView() const { return m_fileSearchView; }
+    CFileRevitView* GetFileRevitView() const { return m_fileRevitView; }
     void SetActiveFileTreeView() { SetActiveView(m_fileTreeViewIndex); }
     void SetActiveTopView() { SetActiveView(m_fileTopViewIndex); }
     void SetActiveDupeView() { SetActiveView(m_fileDupeViewIndex); }
     void SetActiveSearchView() { SetActiveView(m_fileSearchViewIndex); }
     void SetDupeTabVisibility(bool show = true);
     void SetSearchTabVisibility(bool show = true);
+    void SetRevitTabVisibility(bool show = true);
     bool IsDupeTabVisible() { return GetTabControl().IsTabVisible(m_fileDupeViewIndex); }
     bool IsSearchTabVisible() { return GetTabControl().IsTabVisible(m_fileSearchViewIndex); }
     bool CycleTab(bool forward);
@@ -59,6 +63,9 @@ protected:
     CFileTopView* m_fileTopView = nullptr;
     int m_fileSearchViewIndex = -1;
     CFileSearchView* m_fileSearchView = nullptr;
+    int m_fileRevitViewIndex = -1;
+    CFileRevitView* m_fileRevitView = nullptr;
+
 
     DECLARE_MESSAGE_MAP()
     afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);

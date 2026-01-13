@@ -95,6 +95,8 @@ void CSearchOptionsDlg::OnOK()
         std::regex_constants::icase | std::regex_constants::optimize);
         // COptions::FilteringAllowFilesRegex.emplace_back(L".*\\.[0-9]{4}\\.rvt$",
         //     std::regex_constants::icase | std::regex_constants::optimize);
+
+        CMainFrame::Get()->GetFileTabbedView()->SetRevitTabVisibility(true);
     }
 
     if (m_RFASearch)
@@ -104,6 +106,8 @@ void CSearchOptionsDlg::OnOK()
         std::regex_constants::icase | std::regex_constants::optimize);
         // COptions::FilteringAllowFilesRegex.emplace_back(L".*\\.[0-9]{4}\\.rfa$",
         //     std::regex_constants::icase | std::regex_constants::optimize);
+
+        CMainFrame::Get()->GetFileTabbedView()->SetRevitTabVisibility(true);
     }
 
     if (m_BACKUPSearch)
@@ -111,6 +115,8 @@ void CSearchOptionsDlg::OnOK()
         // The $ ensures the entire path (including the extension) is accounted for
         COptions::FilteringAllowFilesRegex.emplace_back(L".*_backup[\\\\/][^\\\\/]+$",
             std::regex_constants::icase | std::regex_constants::optimize);
+
+        CMainFrame::Get()->GetFileTabbedView()->SetRevitTabVisibility(true);
     }
 
     // COptions::CompileFilters();

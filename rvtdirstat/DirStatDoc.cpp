@@ -21,8 +21,10 @@
 #include "TreeMapView.h"
 #include "FileTopControl.h"
 #include "FileSearchControl.h"
+#include "FileRevitControl.h"
 #include "FinderBasic.h"
 #include "FinderNtfs.h"
+#include "ItemRevit.h"
 #include "SearchDlg.h"
 #include "MessageBoxDlg.h"
 #include "ProgressDlg.h"
@@ -93,15 +95,18 @@ void CDirStatDoc::DeleteContents()
     if (CFileTreeControl::Get() != nullptr) CFileTreeControl::Get()->DeleteAllItems();
     if (CFileDupeControl::Get() != nullptr) CFileDupeControl::Get()->DeleteAllItems();
     if (CFileSearchControl::Get() != nullptr) CFileSearchControl::Get()->DeleteAllItems();
+    if (CFileRevitControl::Get() != nullptr) CFileRevitControl::Get()->DeleteAllItems();
 
     // Cleanup structures
     delete m_rootItemDupe;
     delete m_rootItemTop;
     delete m_rootItemSearch;
+    delete m_rootItemRevit;
     delete m_rootItem;
     m_rootItemDupe = nullptr;
     m_rootItemTop = nullptr;
     m_rootItemSearch = nullptr;
+    m_rootItemRevit = nullptr;
     m_rootItem = nullptr;
     m_zoomItem = nullptr;
 }
@@ -180,6 +185,7 @@ BOOL CDirStatDoc::OnOpenDocument(LPCWSTR lpszPathName)
     m_rootItemDupe = new CItemDupe();
     m_rootItemTop = new CItemTop();
     m_rootItemSearch = new CItemSearch();
+    m_rootItemRevit = new CItemRevit();
 
     // Update new root for display
     UpdateAllViews(nullptr, HINT_NEWROOT);
@@ -209,6 +215,7 @@ BOOL CDirStatDoc::OnOpenDocument(CItem * newroot)
     m_rootItemDupe = new CItemDupe();
     m_rootItemTop = new CItemTop();
     m_rootItemSearch = new CItemSearch();
+    m_rootItemRevit = new CItemRevit();
     m_rootItem = newroot;
     m_zoomItem = m_rootItem;
 
@@ -325,6 +332,11 @@ CItemTop* CDirStatDoc::GetRootItemTop() const
 CItemSearch* CDirStatDoc::GetRootItemSearch() const
 {
     return m_rootItemSearch;
+}
+
+CItemRevit* CDirStatDoc::GetRootItemRevit() const
+{
+    return m_rootItemRevit;
 }
 
 bool CDirStatDoc::IsZoomed() const
@@ -836,11 +848,17 @@ bool CDirStatDoc::SearchListHasFocus()
     return LF_SEARCHLIST == CMainFrame::Get()->GetLogicalFocus();
 }
 
+bool CDirStatDoc::RevitListHasFocus()
+{
+    return LF_REVITLIST == CMainFrame::Get()->GetLogicalFocus();
+}
+
 CTreeListControl* CDirStatDoc::GetFocusControl()
 {
     if (DupeListHasFocus()) return CFileDupeControl::Get();
     if (TopListHasFocus()) return CFileTopControl::Get();
     if (SearchListHasFocus()) return CFileSearchControl::Get();
+    if (RevitListHasFocus()) return CFileRevitControl::Get();
     return CFileTreeControl::Get();
 }
 
@@ -1823,6 +1841,7 @@ void CDirStatDoc::StartScanningEngine(std::vector<CItem*> items)
         CFileDupeControl::Get()->RemoveItem(item);
         CFileTopControl::Get()->RemoveItem(item);
         CFileSearchControl::Get()->RemoveItem(item);
+        CFileRevitControl::Get()->RemoveItem(item);
 
         // Record current visual arrangement to reapply afterward
         if (item->IsVisible())

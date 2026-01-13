@@ -1193,6 +1193,7 @@ void CItem::ScanItems(BlockingQueue<CItem*> * queue, FinderNtfsContext& contextN
                     CItem* newitem = item->AddFile(*finder);
                     CFileDupeControl::Get()->ProcessDuplicate(newitem, queue);
                     CFileTopControl::Get()->ProcessTop(newitem);
+                    CFileRevitControl::Get()->ProcessRevitFiles(newitem);
                     queue->WaitIfSuspended();
                 }
 
@@ -1206,6 +1207,7 @@ void CItem::ScanItems(BlockingQueue<CItem*> * queue, FinderNtfsContext& contextN
             item->UpdateStatsFromDisk();
             CFileDupeControl::Get()->ProcessDuplicate(item, queue);
             CFileTopControl::Get()->ProcessTop(item);
+            CFileRevitControl::Get()->ProcessRevitFiles(item);
             item->SetDone();
         }
         else if (item->IsTypeOrFlag(IT_MYCOMPUTER))

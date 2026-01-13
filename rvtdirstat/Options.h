@@ -175,6 +175,7 @@ public:
     static Setting<int> FollowReparsePointMask;
     static Setting<int> LanguageId;
     static Setting<int> LargeFileCount;
+    static Setting<int> RevitFileCount;
     static Setting<int> ScanningThreads;
     static Setting<int> SelectDrivesRadio;
     static Setting<int> FileTreeColorCount;
