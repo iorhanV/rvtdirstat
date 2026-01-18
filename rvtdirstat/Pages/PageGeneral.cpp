@@ -72,14 +72,14 @@ HBRUSH CPageGeneral::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 bool CPageGeneral::IsContextMenuRegistered()
 {
     return CRegKey().Open(HKEY_CLASSES_ROOT, std::format(L"Drive\\shell\\{}",
-        wds::strWinDirStat).c_str(), KEY_READ) == ERROR_SUCCESS;
+        wds::strRvtDirStat).c_str(), KEY_READ) == ERROR_SUCCESS;
 }
 
 bool CPageGeneral::SetContextMenuRegistration(bool enable)
 {
     for (const std::wstring& rootSubKey : { L"Drive", L"Directory" })
     {
-        const std::wstring baseKey = rootSubKey + L"\\shell\\" + wds::strWinDirStat;
+        const std::wstring baseKey = rootSubKey + L"\\shell\\" + wds::strRvtDirStat;
 
         if (!enable)
         {
@@ -92,7 +92,7 @@ bool CPageGeneral::SetContextMenuRegistration(bool enable)
         CRegKey key;
         const std::wstring exePath = GetAppFileName();
         if (key.Create(HKEY_CLASSES_ROOT, baseKey.c_str()) != ERROR_SUCCESS ||
-            key.SetStringValue(nullptr, wds::strWinDirStat) != ERROR_SUCCESS ||
+            key.SetStringValue(nullptr, wds::strRvtDirStat) != ERROR_SUCCESS ||
             key.SetStringValue(L"Icon", exePath.c_str()) != ERROR_SUCCESS)
         {
             SetContextMenuRegistration(false);
@@ -129,7 +129,7 @@ BOOL CPageGeneral::OnInitDialog()
     m_useWindowsLocale = COptions::UseWindowsLocaleSetting;
     m_portableMode = CDirStatApp::InPortableMode();
     m_darkModeRadio = COptions::DarkMode;
-    
+
     // Query checkbox status and then gray out if not elevated
     m_contextMenuIntegration = IsContextMenuRegistered() ? TRUE : FALSE;
     if (CWnd* pWnd = GetDlgItem(IDC_CONTEXT_MENU); pWnd != nullptr && !IsElevationActive())
@@ -174,9 +174,9 @@ void CPageGeneral::OnOK()
     {
         DisplayError(L"Could not toggle WinDirStat portable mode. Check your permissions.");
     }
-    
+
     // Update context menu registration if elevated
-    const bool shouldBeRegistered = (m_contextMenuIntegration != FALSE);      
+    const bool shouldBeRegistered = (m_contextMenuIntegration != FALSE);
     if (IsContextMenuRegistered() != shouldBeRegistered && IsElevationActive())
     {
         SetContextMenuRegistration(shouldBeRegistered);

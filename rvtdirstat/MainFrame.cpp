@@ -66,7 +66,7 @@ namespace
 IMPLEMENT_DYNAMIC(COptionsPropertySheet, CMFCPropertySheet)
 
 COptionsPropertySheet::COptionsPropertySheet()
-    : CMFCPropertySheet(Localization::Lookup(IDS_WINDIRSTAT_SETTINGS).c_str())
+    : CMFCPropertySheet(Localization::Lookup(IDS_RVTDIRSTAT_SETTINGS).c_str())
 {
     m_look = PropSheetLook_OneNoteTabs;
 }

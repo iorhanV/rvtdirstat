@@ -45,7 +45,7 @@ protected:
     BOOL m_automaticallyResizeColumns = FALSE;
     BOOL m_contextMenuIntegration = FALSE;
     BOOL m_sizeSuffixesFormat = FALSE;
-    BOOL m_portableMode = FALSE;
+    BOOL m_portableMode = TRUE;
     BOOL m_listGrid = FALSE;
     BOOL m_listStripes = FALSE;
     BOOL m_listFullRowSelection = FALSE;

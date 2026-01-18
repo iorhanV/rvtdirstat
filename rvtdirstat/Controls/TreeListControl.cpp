@@ -760,25 +760,25 @@ void CTreeListControl::OnLvnItemChangingList(NMHDR* pNMHDR, LRESULT* pResult)
         (pNMLV->uOldState & LVIS_SELECTED) == 0 &&
         (pNMLV->uNewState & LVIS_SELECTED) != 0;
 
-    if (requestingSelection)
-    {
-        if (auto* item = GetItem(pNMLV->iItem))
-        {
-            if (auto* linkedItem = item->GetLinkedItem())
-            {
-                // Check if it's either a Revit project (.rvt) or family (.rfa)
-                if (linkedItem->IsTypeOrFlag(ITF_REVIT))
-                {
-                    if (!linkedItem->IsTypeOrFlag(ITF_BACKUP))
-                    {
-                        // It's a main file (not a backup), so block selection
-                        *pResult = TRUE;
-                        return;
-                    }
-                }
-            }
-        }
-    }
+    // if (requestingSelection)
+    // {
+    //     if (auto* item = GetItem(pNMLV->iItem))
+    //     {
+    //         if (auto* linkedItem = item->GetLinkedItem())
+    //         {
+    //             // Check if it's either a Revit project (.rvt) or family (.rfa)
+    //             if (linkedItem->IsTypeOrFlag(ITF_REVIT))
+    //             {
+    //                 if (!linkedItem->IsTypeOrFlag(ITF_BACKUP))
+    //                 {
+    //                     // It's a main file (not a backup), so block selection
+    //                     *pResult = TRUE;
+    //                     return;
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
 
     // if in shift-extend mode, prevent selecting of non-adjacent nodes
     if (IsShiftKeyDown() && requestingSelection)
