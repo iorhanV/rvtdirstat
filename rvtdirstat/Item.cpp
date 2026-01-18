@@ -1012,6 +1012,7 @@ std::wstring CItem::GetName() const
 
 std::wstring CItem::GetExtension() const
 {
+    // if (IsTypeOrFlag(IT_DIRECTORY) && IsTypeOrFlag(ITF_BACKUP)) return L"_backup";
     if (!IsTypeOrFlag(IT_FILE)) return GetName();
     const auto & extName = GetName();
     const auto pos = extName.rfind('.');
@@ -1154,6 +1155,7 @@ void CItem::ScanItems(BlockingQueue<CItem*> * queue, FinderNtfsContext& contextN
                     }
 
                     item->UpwardAddFolders(1);
+
                     if (CItem* newitem = item->AddDirectory(*finder); newitem->GetReadJobs() > 0)
                     {
                         queue->Push(newitem);
@@ -1758,6 +1760,7 @@ CItem* CItem::AddDirectory(const Finder& finder)
     {
         child->SetFlag(ITF_REVIT);
         child->SetFlag(ITF_BACKUP);
+        CFileRevitControl::Get()->ProcessRevitFiles(child);
     }
 
     if (finder.IsReserved() || this->IsTypeOrFlag(ITF_RESERVED)) child->SetFlag(ITF_RESERVED);
