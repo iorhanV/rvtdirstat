@@ -77,10 +77,6 @@ COLORREF CItemRevit::GetItemTextColor() const
             {
                 return RGB(128, 128, 128);
             }
-            else
-            {
-                return RGB(255, 0, 0);
-            }
         }
 
         return m_item->GetItemTextColor();
@@ -125,6 +121,21 @@ void CItemRevit::AddRevitItemChild(CItemRevit* child)
     if (IsVisible() && IsExpanded())
     {
         CFileRevitControl::Get()->OnChildAdded(this, child);
+    }
+}
+
+void CItemRevit::DetachRevitItemChild(CItemRevit* child)
+{
+    if (IsVisible())
+    {
+        CFileRevitControl::Get()->OnChildRemoved(this, child);
+    }
+
+    std::scoped_lock guard(m_protect);
+    auto& children = m_children;
+    if (auto it = std::ranges::find(children, child); it != children.end())
+    {
+        children.erase(it);
     }
 }
 
