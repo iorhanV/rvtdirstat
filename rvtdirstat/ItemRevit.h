@@ -41,6 +41,7 @@ public:
     CItem* GetLinkedItem() override { return m_item; }
 
     void AddRevitItemChild(CItemRevit* child);
+    void DetachRevitItemChild(CItemRevit* child);
     void RemoveRevitItemChild(CItemRevit* child);
     void RemoveRevitItemResults();
 };

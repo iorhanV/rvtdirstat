@@ -90,28 +90,103 @@ void CFileRevitControl::SortItems()
     // Update visual item removals
     const auto root = reinterpret_cast<CItemRevit*>(GetItem(0));
     auto itemTrackerCopy = std::unordered_map(m_itemTracker);
-    for (const auto& largeItem : m_sizeMap | std::views::take(topN))
+
+
+    // 1. Identify all visible items and ensure wrappers exist
+    std::vector<CItem*> visibleItems;
+    visibleItems.reserve(topN);
+
+    for (const auto& item : m_sizeMap | std::views::take(topN))
     {
-        if (m_itemTracker.contains(largeItem))
-        {
-            itemTrackerCopy.erase(largeItem);
+        if (!item->IsTypeOrFlag(ITF_REVIT))
             continue;
-        }
 
+        visibleItems.push_back(item);
 
-        if (largeItem->IsTypeOrFlag(ITF_REVIT))
+        if (m_itemTracker.contains(item))
         {
-            const auto itemRevit = new CItemRevit(largeItem);
-            root->AddRevitItemChild(itemRevit);
-            m_itemTracker[largeItem] = itemRevit;
+            itemTrackerCopy.erase(item);
+        }
+        else
+        {
+            auto* itemRevit = new CItemRevit(item);
+            m_itemTracker[item] = itemRevit;
         }
     }
 
-    // Handle visual item additions
-    for (const auto& itemRevit : itemTrackerCopy | std::views::values)
+    // 2. Map names to wrappers for quick parent lookup
+    std::unordered_map<std::wstring, CItemRevit*> nameToWrapperMap;
+    for (auto* item : visibleItems)
     {
-        m_itemTracker.erase(itemRevit->GetLinkedItem());
-        root->RemoveRevitItemChild(itemRevit);
+        nameToWrapperMap[item->GetName()] = m_itemTracker[item];
+    }
+
+    // 3. Clear all current parent-child relationships for visible items to avoid cycles/conflicts
+    for (auto* item : visibleItems)
+    {
+        CItemRevit* wrapper = m_itemTracker[item];
+        if (auto* parent = dynamic_cast<CItemRevit*>(wrapper->GetParent()))
+        {
+            parent->DetachRevitItemChild(wrapper);
+        }
+    }
+
+    // 4. Rebuild the hierarchy using ITF_BACKUP flag
+    for (auto* item : visibleItems)
+    {
+        CItemRevit* currentWrapper = m_itemTracker[item];
+        CItemRevit* desiredParentWrapper = root;
+
+        if (item->IsTypeOrFlag(ITF_BACKUP))
+        {
+            const std::wstring name = item->GetName();
+
+            if (item->IsTypeOrFlag(IT_FILE))
+            {
+                const size_t lastDot = name.rfind(L'.');
+                const size_t prevDot = (lastDot != std::wstring::npos) ? name.rfind(L'.', lastDot - 1) : std::wstring::npos;
+
+                if (prevDot != std::wstring::npos)
+                {
+                    // project.0001.rvt -> project.rvt
+                    std::wstring parentName = name.substr(0, prevDot) + name.substr(lastDot);
+                    if (nameToWrapperMap.contains(parentName))
+                    {
+                        desiredParentWrapper = nameToWrapperMap[parentName];
+                    }
+                }
+            }
+            else if (item->IsTypeOrFlag(IT_DIRECTORY))
+            {
+                // Check for "filename_backup" pattern
+                if (name.size() > 7 && name.ends_with(L"_backup"))
+                {
+                    // project_backup -> project.rvt
+                    std::wstring parentName = name.substr(0, name.size() - 7) + L".rvt";
+                    if (nameToWrapperMap.contains(parentName))
+                    {
+                        desiredParentWrapper = nameToWrapperMap[parentName];
+                    }
+                }
+            }
+
+        }
+
+        desiredParentWrapper->AddRevitItemChild(currentWrapper);
+    }
+
+    // 5. Remove unused wrappers
+    for (const auto& [item, wrapper] : itemTrackerCopy)
+    {
+        if (auto* parent = dynamic_cast<CItemRevit*>(wrapper->GetParent()))
+        {
+            parent->RemoveRevitItemChild(wrapper);
+        }
+        else
+        {
+            delete wrapper;
+        }
+        m_itemTracker.erase(item);
     }
 
     CTreeListControl::SortItems();
