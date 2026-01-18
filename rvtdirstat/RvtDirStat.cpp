@@ -60,7 +60,7 @@ void CDirStatApp::RestartApplication(bool resetPreferences)
     if (resetPreferences)
     {
         // Cleanup registry preferences
-        RegDeleteTree(HKEY_CURRENT_USER, L"Software\\WinDirStat");
+        RegDeleteTree(HKEY_CURRENT_USER, L"Software\\RvtDirStat");
 
         // Enable portable mode by creating the file
         if (InPortableMode())
@@ -224,10 +224,10 @@ CString AFXGetRegPath(LPCTSTR lpszPostFix, LPCTSTR)
 {
     // This overrides an internal MFC function that causes CWinAppEx
     // to malfunction when operated in portable mode
-    return CString(L"Software\\WinDirStat\\WinDirStat\\") + lpszPostFix + L"\\";
+    return CString(L"Software\\RvtDirStat\\RvtDirStat\\") + lpszPostFix + L"\\";
 }
 
- class CWinDirStatCommandLineInfo final : public CCommandLineInfo
+ class CRvtDirStatCommandLineInfo final : public CCommandLineInfo
 {
 public:
 
@@ -281,7 +281,8 @@ BOOL CDirStatApp::InitInstance()
     Localization::LoadResource(MAKELANGID(LANG_ENGLISH, SUBLANG_NEUTRAL));
 
     // If a local config file is available, use that for settings
-    SetPortableMode(true, true);
+    // SetPortableMode(true, true);
+    SetPortableMode(true, false);
 
     COptions::LoadAppSettings();
     LoadStdProfileSettings(0);
@@ -320,7 +321,7 @@ BOOL CDirStatApp::InitInstance()
     AddDocTemplate(m_pDocTemplate);
 
     // Parse command line arguments
-    CWinDirStatCommandLineInfo cmdInfo;
+    CRvtDirStatCommandLineInfo cmdInfo;
     ParseCommandLine(cmdInfo);
     ProcessShellCommand(cmdInfo);
 
@@ -452,7 +453,7 @@ void CDirStatApp::LegacyUninstall()
     // Kill WinDirStat processes based on executable name
     if (SmartPointer<HANDLE> snap(CloseHandle, CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0)); snap.IsValid())
     {
-        const std::wstring exeName = wds::strWinDirStat;
+        const std::wstring exeName = wds::strRvtDirStat;
         PROCESSENTRY32W pe{ .dwSize = sizeof(pe) };
         for (BOOL hasProcess = Process32FirstW(snap, &pe); hasProcess; hasProcess = Process32NextW(snap, &pe))
         {
@@ -512,11 +513,11 @@ void CDirStatApp::LegacyUninstall()
         }
 
         // Delete registry key
-        SHDeleteKeyW(regInfo.rootKey, (regInfo.subKey + L"\\WinDirStat").c_str());
+        SHDeleteKeyW(regInfo.rootKey, (regInfo.subKey + L"\\RvtDirStat").c_str());
     }
 
     // Remove shortcuts and start menu items for all users
-    constexpr auto startMenuLocation = L"Microsoft\\Windows\\Start Menu\\Programs\\WinDirStat";
+    constexpr auto startMenuLocation = L"Microsoft\\Windows\\Start Menu\\Programs\\RvtDirStat";
     SmartPointer<PWSTR> usersPath(CoTaskMemFree, nullptr);
     if (SHGetKnownFolderPath(FOLDERID_UserProfiles, 0, nullptr, &usersPath) != S_OK) return;
     if (fs::path usersDir(static_cast<LPWSTR>(usersPath)); fs::exists(usersDir, ec))
@@ -525,7 +526,7 @@ void CDirStatApp::LegacyUninstall()
         {
             if (!userDir.is_directory()) continue;
 
-            fs::remove(userDir.path() / L"Desktop\\WinDirStat.lnk", ec);
+            fs::remove(userDir.path() / L"Desktop\\RvtDirStat.lnk", ec);
             fs::remove_all(userDir.path() / L"AppData\\Roaming" / startMenuLocation, ec);
         }
     }

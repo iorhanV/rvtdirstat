@@ -1754,7 +1754,11 @@ CItem* CItem::AddDirectory(const Finder& finder)
     child->SetAttributes(finder.GetAttributes());
     child->SetReparseTag(finder.GetReparseTag());
 
-    // L".*_backup[\\\\/][^\\\\/]+$"
+    if (child->GetName().ends_with(L"_backup"))
+    {
+        child->SetFlag(ITF_REVIT);
+        child->SetFlag(ITF_BACKUP);
+    }
 
     if (finder.IsReserved() || this->IsTypeOrFlag(ITF_RESERVED)) child->SetFlag(ITF_RESERVED);
     if (finder.IsOffVolumeReparsePoint() && follow) child->SetFlag(ITF_BASIC);

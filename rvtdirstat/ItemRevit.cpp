@@ -77,6 +77,10 @@ COLORREF CItemRevit::GetItemTextColor() const
             {
                 return RGB(128, 128, 128);
             }
+            else
+            {
+                return RGB(255, 0, 0);
+            }
         }
 
         return m_item->GetItemTextColor();

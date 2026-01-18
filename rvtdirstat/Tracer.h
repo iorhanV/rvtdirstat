@@ -32,7 +32,7 @@ public:
     CWDSTracerConsole()
     {
         AllocConsole();
-        ::SetConsoleTitle(L"WinDirStat Debug Trace Output");
+        ::SetConsoleTitle(L"RvtDirStat Debug Trace Output");
 
         // Redirect console output to new console
         _wfreopen_s(&handleErr, L"CONOUT$", L"w", stderr);

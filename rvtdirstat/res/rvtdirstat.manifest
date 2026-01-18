@@ -29,8 +29,8 @@
             </requestedPrivileges>
         </security>
     </trustInfo>
-    <assemblyIdentity version="1.0.0.0" processorArchitecture="*" name="net.windirstat.wds" type="win32" />
-    <description>WinDirStat - Windows Directory Statistics</description>
+    <assemblyIdentity version="1.0.0.0" processorArchitecture="*" name="net.rvtdirstat.wds" type="win32" />
+    <description>RvtDirStat - Windows Directory Statistics</description>
     <dependency>
         <dependentAssembly>
             <assemblyIdentity

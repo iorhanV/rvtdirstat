@@ -1,5 +1,8 @@
-﻿// WinDirStat - Directory Statistics
-// Copyright © WinDirStat Team
+﻿// RvtDirStat - Specialized Revit File Directory Statistics
+// Derived from WinDirStat - Directory Statistics
+//
+// Copyright (C) WinDirStat Team
+// Copyright (C) 2026 Iorhan Vendruscolo
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -32,7 +35,7 @@ namespace wds
 
     inline constexpr auto strExplorerKey = L"Software\\Microsoft\\Windows\\CurrentVersion\\Explorer";
     inline constexpr auto strThemesKey   = L"Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize";
-    inline constexpr auto strUninstall   = L"Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\WinDirStat";
+    inline constexpr auto strUninstall   = L"Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\RvtDirStat";
 
     inline constexpr auto strInvalidAttributes     = L"??????";
     inline constexpr auto chrAttributeReadonly     = L'R'; /*FILE_ATTRIBUTE_READONLY*/
@@ -45,6 +48,6 @@ namespace wds
     inline constexpr auto chrAttributeEncrypted    = L'E'; /*FILE_ATTRIBUTE_ENCRYPTED*/
     inline constexpr auto chrAttributeSparse       = L'Z'; /*FILE_ATTRIBUTE_SPARSE*/
 
-    inline constexpr auto strWinDirStat = L"WinDirStat";
+    inline constexpr auto strRvtDirStat = L"RvtDirStat";
     inline constexpr std::wstring_view strAlpha{ L"ABCDEFGHIJKLMNOPQRSTUVWXYZ" };
 }

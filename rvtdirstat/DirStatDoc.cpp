@@ -1,5 +1,8 @@
-﻿// WinDirStat - Directory Statistics
-// Copyright © WinDirStat Team
+﻿// RvtDirStat - Specialized Revit File Directory Statistics
+// Derived from WinDirStat - Directory Statistics
+//
+// Copyright (C) WinDirStat Team
+// Copyright (C) 2026 Iorhan Vendruscolo
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -1330,7 +1333,7 @@ void CDirStatDoc::OnCommandPromptHere()
     {
         // If using command prompt, use pushd to force a drive mount
         std::wstring uncmod = path.starts_with(L"\\\\") ? std::format(L"&& PUSHD \"{}\" && CLS", path) : L"";
-        std::wstring params = std::format(L"/K TITLE {} - \"{}\" {}", wds::strWinDirStat, path, uncmod);
+        std::wstring params = std::format(L"/K TITLE {} - \"{}\" {}", wds::strRvtDirStat, path, uncmod);
 
         // Launch command prompt
         ShellExecuteWrapper(cmd, params, L"open", *AfxGetMainWnd(), path);
@@ -1513,21 +1516,21 @@ void CDirStatDoc::OnExecuteProgramsFeatures()
 void CDirStatDoc::OnExecuteDismAnalyze()
 {
     const std::wstring cmd = std::format(LR"(/C "TITLE {} & DISM.EXE {} & PAUSE)",
-        L"WinDirStat - DISM", L"/Online /Cleanup-Image /AnalyzeComponentStore");
+        L"RvtDirStat - DISM", L"/Online /Cleanup-Image /AnalyzeComponentStore");
     ShellExecuteWrapper(GetCOMSPEC(), cmd, L"runas");
 }
 
 void CDirStatDoc::OnExecuteDismReset()
 {
     const std::wstring cmd = std::format(LR"(/C "TITLE {} & DISM.EXE {} & PAUSE)",
-        L"WinDirStat - DISM", L"/Online /Cleanup-Image /StartComponentCleanup /ResetBase");
+        L"RvtDirStat - DISM", L"/Online /Cleanup-Image /StartComponentCleanup /ResetBase");
     ShellExecuteWrapper(GetCOMSPEC(), cmd, L"runas");
 }
 
 void CDirStatDoc::OnExecuteDism()
 {
     const std::wstring cmd = std::format(LR"(/C "TITLE {} & DISM.EXE {} & PAUSE)",
-        L"WinDirStat - DISM", L"/Online /Cleanup-Image /StartComponentCleanup");
+        L"RvtDirStat - DISM", L"/Online /Cleanup-Image /StartComponentCleanup");
     ShellExecuteWrapper(GetCOMSPEC(), cmd, L"runas");
 }
 

@@ -228,7 +228,7 @@ std::wstring CAboutDlg::GetAppVersion()
     const DWORD iVersionSize = GetFileVersionInfoSize(file.c_str(), nullptr);
     if (iVersionSize == 0)
     {
-        return wds::strWinDirStat;
+        return wds::strRvtDirStat;
     }
 
     auto tVersionInfo = std::vector<BYTE>(iVersionSize);
@@ -239,14 +239,14 @@ std::wstring CAboutDlg::GetAppVersion()
         VerQueryValue(tVersionInfo.data(), L"\\", reinterpret_cast<LPVOID*>(&pVersion), &iQueriedSize) != 0)
     {
         return std::format(L"{} {}{}.{}.{} ({})\nGit Commit: {}",
-            wds::strWinDirStat, PRODUCTION == 0 ? L"Beta " : L"",
+            wds::strRvtDirStat, PRODUCTION == 0 ? L"Beta " : L"",
             HIWORD(pVersion->dwFileVersionMS),
             LOWORD(pVersion->dwFileVersionMS),
             HIWORD(pVersion->dwFileVersionLS),
             _CRT_WIDE(GIT_DATE), _CRT_WIDE(GIT_COMMIT));
     }
 
-    return wds::strWinDirStat;
+    return wds::strRvtDirStat;
 }
 
 void CAboutDlg::DoDataExchange(CDataExchange* pDX)
