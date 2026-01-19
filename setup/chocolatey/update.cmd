@@ -1,6 +1,6 @@
 <# ::
 @ECHO OFF
-TITLE Updating WinDirStat Release Info
+TITLE Updating RvtDirStat Release Info
 CD /D "%~dp0"
 SET PSSCRIPT=%~dpnx0
 SET PSSCRIPT=%PSSCRIPT:.cmd=.ps1%
@@ -11,7 +11,7 @@ DEL /F "%PSSCRIPT%" > NUL
 EXIT /B %ERR%
 #>
 
-$Content = Get-Content '..\..\windirstat\Version.h'
+$Content = Get-Content '..\..\rvtdirstat\Version.h'
 $Pattern = "#define\s+PRD_\S+\s+(\d+)"
 $VersionMatches = $Content | Select-String -Pattern $Pattern -AllMatches
 $VersionParts = $VersionMatches | ForEach-Object { $_.Matches.Groups[1].Value }
@@ -19,8 +19,8 @@ $Version = $VersionParts -join '.'
 
 $ReplaceStrings = @{
     '${VERSION}' = $Version
-    '${HASHX86}' = (Get-FileHash -Algorithm SHA256 -LiteralPath '..\..\publish\WinDirStat-x86.msi').Hash;
-    '${HASHX64}' = (Get-FileHash -Algorithm SHA256 -LiteralPath '..\..\publish\WinDirStat-x64.msi').Hash;
+    '${HASHX86}' = (Get-FileHash -Algorithm SHA256 -LiteralPath '..\..\publish\RvtDirStat-x86.msi').Hash;
+    '${HASHX64}' = (Get-FileHash -Algorithm SHA256 -LiteralPath '..\..\publish\RvtDirStat-x64.msi').Hash;
 }
 
 ForEach ($File in (Get-ChildItem ".\*.template" -Recurse -Force))
