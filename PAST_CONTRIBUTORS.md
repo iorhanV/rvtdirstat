@@ -10,7 +10,7 @@
 # Development Contributors
 
 * Robin "tuqueque" Marín
-    * Created logo used on website and within WinDirStat
+    * Created logo used on website and within RvtDirStat
 * Falco Peijnenburg
     * Performance improvements to the treemap rendering
 * Morten Asscheman

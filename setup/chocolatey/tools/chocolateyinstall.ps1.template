@@ -3,8 +3,8 @@
 $packageName= $env:ChocolateyPackageName
 $toolsDir = "$(Split-Path -parent $MyInvocation.MyCommand.Definition)"
 
-$url = 'https://github.com/windirstat/windirstat/releases/download/release/v${VERSION}/WinDirStat-x86.msi'
-$url64 = 'https://github.com/windirstat/windirstat/releases/download/release/v${VERSION}/WinDirStat-x64.msi'
+$url = 'https://github.com/iorhanV/rvtdirstat/releases/download/v${VERSION}/RvtDirStat-x86.msi'
+$url64 = 'https://github.com/iorhanV/rvtdirstat/releases/download/v${VERSION}/RvtDirStat-x64.msi'
 
 $packageArgs = @{
   packageName   = $packageName
@@ -13,7 +13,7 @@ $packageArgs = @{
   url           = $url
   url64bit      = $url64
 
-  softwareName  = 'WinDirStat'
+  softwareName  = 'RvtDirStat'
 
   checksum      = '${HASHX86}'
   checksumType  = 'sha256'
