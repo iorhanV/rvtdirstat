@@ -27,7 +27,7 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 STRINGTABLE
 BEGIN
     AFX_IDS_APP_TITLE       "RvtDirStat"
-    IDS_AUTHOR_EMAIL        "temp@gmail.com"
+    IDS_AUTHOR_EMAIL        "@gmail.com"
     IDS_URL_WEBSITE         "https://github.com/iorhanV/rvtdirstat"
     IDS_URL_HELP            "https://github.com/iorhanV/rvtdirstat"
     IDS_URL_REPORT_BUG      "https://github.com/iorhanV/rvtdirstat/issues/new/choose"

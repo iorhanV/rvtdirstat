@@ -97,7 +97,6 @@ void CAboutDlg::WdsTabControl::Initialize()
 
     // Populate text
     m_textAbout.SetWindowText(Localization::Format(IDS_ABOUT_ABOUT_TEXTss,
-        Localization::LookupNeutral(IDS_AUTHOR_EMAIL),
         Localization::LookupNeutral(IDS_URL_WEBSITE)).c_str());
 
     m_textThanks.SetWindowText(Localization::Lookup(IDS_ABOUT_THANKS_TEXT).c_str());
@@ -123,8 +122,8 @@ void CAboutDlg::WdsTabControl::Initialize()
 CRichEditCtrl& CAboutDlg::WdsTabControl::GetActiveRichEdit()
 {
     const auto tabIndex = GetActiveTab();
-    return tabIndex == TAB_ABOUT ? m_textAbout : 
-           tabIndex == TAB_THANKSTO ? m_textThanks : 
+    return tabIndex == TAB_ABOUT ? m_textAbout :
+           tabIndex == TAB_THANKSTO ? m_textThanks :
            m_textLicense;
 }
 
@@ -169,7 +168,7 @@ END_MESSAGE_MAP()
 void CAboutDlg::WdsTabControl::OnSetFocus(CWnd* pOldWnd)
 {
     CMFCTabCtrl::OnSetFocus(pOldWnd);
-    
+
     // Hide the caret in the active RichEdit control
     ClearSelectionCursor();
 }
@@ -313,10 +312,10 @@ BOOL CAboutDlg::PreTranslateMessage(MSG* pMsg)
             m_tab.SetFocus();
             return TRUE;
         }
-        
+
         // Force showing focus rectangles
         SendMessage(WM_CHANGEUISTATE, MAKEWPARAM(UIS_CLEAR, UISF_HIDEFOCUS));
     }
-    
+
     return CLayoutDialogEx::PreTranslateMessage(pMsg);
 }
